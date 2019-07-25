@@ -20,7 +20,6 @@ public class User {
     }
 
 
-
     public String getName() {
         return name;
     }
@@ -75,5 +74,27 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void setRole(String role) {
+        for (Role rl : Role.values()) {
+            if (role.equals(rl.getRoleToString())) {
+                setRole(rl);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

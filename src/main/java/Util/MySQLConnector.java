@@ -2,13 +2,11 @@ package Util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class MySQLConnector {
-
+    private Connection connection = getConnection();
     private static final String dbFileProperties = "src/main/resources/db.properties";
     private static Properties properties = new Properties();
 
@@ -52,5 +50,46 @@ public class MySQLConnector {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    public PreparedStatement getPrepareStatement(String sql) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return preparedStatement;
+    }
+
+    public Statement getStatament(){
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return statement;
+    }
+
+    public void closePrepareStatement(PreparedStatement preparedStatement) {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void closeStatement(Statement statement) {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

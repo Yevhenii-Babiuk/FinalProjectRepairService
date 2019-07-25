@@ -4,10 +4,6 @@ USE repair_service;
 
 CREATE TABLE IF NOT EXISTS User(
 id INT NOT NULL AUTO_INCREMENT,
-name TEXT NOT NULL,
-surname TEXT NOT NULL,
-address TEXT NOT NULL,
-phone TEXT NOT NULL,
 login TEXT NOT NULL,
 password TEXT NOT NULL,
 role ENUM('admin','manager','master','client') NOT NULL DEFAULT 'client',
@@ -15,6 +11,10 @@ PRIMARY KEY (id));
 
 CREATE TABLE IF NOT EXISTS Employees (
 user_id INT NOT NULL,
+name TEXT NOT NULL,
+surname TEXT NOT NULL, 
+address TEXT NOT NULL,
+phone TEXT NOT NULL,
 start_date DATE NOT NULL,
 experience INT NOT NULL DEFAULT 0,
 PRIMARY KEY (user_id));
@@ -32,9 +32,6 @@ end_date DATE,
 feedback INT,
 PRIMARY KEY (id)); 
 
-CREATE TABLE IF NOT EXISTS Client (
-user_id INT NOT NULL,
-PRIMARY KEY (user_id));
 
 CREATE TABLE IF NOT EXISTS Device(
 id INT NOT NULL AUTO_INCREMENT,
@@ -65,7 +62,7 @@ PRIMARY KEY (id));
 ALTER TABLE `Order`
 ADD CONSTRAINT client_constraint
 FOREIGN KEY (client)
-REFERENCES Client (user_id);
+REFERENCES User (id);
 
 ALTER TABLE `Order`
 ADD CONSTRAINT manager_constraint
@@ -95,7 +92,7 @@ REFERENCES Feedback (id);
 ALTER TABLE Device
 ADD CONSTRAINT client_device
 FOREIGN KEY (client)
-REFERENCES Client (user_id);
+REFERENCES User (id);
 
 ALTER TABLE Problem
 ADD CONSTRAINT problem_type
@@ -104,11 +101,6 @@ REFERENCES Problem_type (id);
 
 ALTER TABLE Employees
 ADD CONSTRAINT user_to_employyes
-FOREIGN KEY (user_id)
-REFERENCES User (id);
-
-ALTER TABLE Client
-ADD CONSTRAINT user_to_client
 FOREIGN KEY (user_id)
 REFERENCES User (id);
 
