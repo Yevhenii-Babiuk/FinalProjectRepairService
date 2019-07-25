@@ -1,6 +1,6 @@
 package DAO;
 
-import Model.Feedback;
+import Model.Problem;
 import Util.MySQLConnector;
 
 import java.sql.PreparedStatement;
@@ -10,56 +10,56 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedbackDAOImplement extends MySQLConnector implements DAO<Feedback, Integer> {
+public class ProblemDAOImplement extends MySQLConnector implements DAO <Problem, Integer> {
 
-    private Feedback setFeedbackFromDb(ResultSet resultSet) {
-        Feedback feedback = new Feedback();
+    private Problem setProblemFromDb(ResultSet resultSet) {
+        Problem problem = new Problem();
         try {
-            feedback.setId(resultSet.getInt("id"));
-            feedback.setRate(resultSet.getInt("rate"));
-            feedback.setText(resultSet.getString("text"));
+            problem.setId(resultSet.getInt("id"));
+            problem.setProblem(resultSet.getString("problem"));
+            problem.setProblemType(resultSet.getInt("problem_type"));
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return feedback;
+        return problem;
     }
 
-    private void setFeedbackToDb(PreparedStatement preparedStatement, Feedback entity) {
+    private void setProblemToDb(PreparedStatement preparedStatement, Problem entity) {
         try {
             preparedStatement.setInt(1, entity.getId());
-            preparedStatement.setInt(2, entity.getRate());
-            preparedStatement.setString(3, entity.getText());
+            preparedStatement.setString(2, entity.getProblem());
+            preparedStatement.setInt(3, entity.getProblemType());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private Feedback getFeedbackFromDb(String sql, Integer parametr) {
-        Feedback feedback = new Feedback();
+    private Problem getProblemFromDb(String sql, Integer id) {
+        Problem problem = new Problem();
         PreparedStatement preparedStatement = getPrepareStatement(sql);
         try {
-            preparedStatement.setInt(1, parametr);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            feedback = setFeedbackFromDb(resultSet);
+            problem = setProblemFromDb(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closePrepareStatement(preparedStatement);
         }
-        return feedback;
+        return problem;
     }
 
     @Override
-    public void add(Feedback entity) {
-        String sql = "INSERT INTO `feedback` (id, rate, text) VALUES (?, ?, ?)";
+    public void add(Problem entity) {
+        String sql = "INSERT INTO `problem` (id, problem, problem_type) VALUES (?, ?, ?)";
 
         PreparedStatement preparedStatement = getPrepareStatement(sql);
 
         try {
-            setFeedbackToDb(preparedStatement, entity);
+            setProblemToDb(preparedStatement, entity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,40 +69,40 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAO<Feedback
     }
 
     @Override
-    public List<Feedback> getAll(){
-        List<Feedback> feedbackList = new ArrayList<>();
-        String sql = "SELECT id, rate, text FROM `feedback`";
+    public List<Problem> getAll() {
+        List<Problem> problemList = new ArrayList<>();
+        String sql = "SELECT id, problem, problem_type FROM `problem`";
         Statement statement = getStatament();
         try {
 
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                Feedback feedback = setFeedbackFromDb(resultSet);
-                feedbackList.add(feedback);
+                Problem problem = setProblemFromDb(resultSet);
+                problemList.add(problem);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeStatement(statement);
         }
-        return feedbackList;
+        return problemList;
     }
 
     @Override
-    public Feedback getEntityByKey(Integer id) {
-        String sql = "SELECT id, rate, text FROM `feedback` WHERE id = ?";
-        return getFeedbackFromDb(sql, id);
+    public Problem getEntityByKey(Integer id) {
+        String sql = "SELECT id, problem, problem_type FROM `problem` WHERE id = ?";
+        return getProblemFromDb(sql, id);
     }
 
     @Override
-    public void update(Feedback entity) {
-        String sql = "UPDATE `feedback` SET id=?, rate=?, text=? WHERE id=?";
+    public void update(Problem entity) {
+        String sql = "UPDATE `problem` SET id=?, problem=?, problem_type=? WHERE id=?";
 
         PreparedStatement preparedStatement = getPrepareStatement(sql);
 
         try {
-            setFeedbackToDb(preparedStatement, entity);
+            setProblemToDb(preparedStatement, entity);
             preparedStatement.setInt(4, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -113,8 +113,8 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAO<Feedback
     }
 
     @Override
-    public void delete(Feedback entity) {
-        String sql = "DELETE  FROM `feedback` WHERE id=?";
+    public void delete(Problem entity) {
+        String sql = "DELETE  FROM `problem` WHERE id=?";
         PreparedStatement preparedStatement =getPrepareStatement(sql);
 
         try {
@@ -127,8 +127,9 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAO<Feedback
         }
     }
 
-    public Feedback getFeedbackByExperience(Integer rate) {
-        String sql = "SELECT id, rate, text FROM `feedback` WHERE rate = ?";
-        return getFeedbackFromDb(sql, rate);
+    public Problem getProblemByType(Integer type) {
+        String sql = "SELECT id, problem, problem_type FROM `problem` WHERE type = ?";
+        return getProblemFromDb(sql, type);
     }
+
 }

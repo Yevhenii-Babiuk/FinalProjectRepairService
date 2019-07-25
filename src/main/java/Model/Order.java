@@ -7,6 +7,7 @@ public class Order {
     private int client;
     private int manager;
     private int master;
+    private int device;
     private int problem;
     private Date start_date;
     private boolean status;
@@ -19,6 +20,14 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getDevice() {
+        return device;
+    }
+
+    public void setDevice(int device) {
+        this.device = device;
     }
 
     public int getClient() {

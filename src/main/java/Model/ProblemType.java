@@ -2,7 +2,7 @@ package Model;
 
 public class ProblemType {
     private int id;
-    private String typel;
+    private String type;
     private float price;
 
     public int getId() {
@@ -13,12 +13,12 @@ public class ProblemType {
         this.id = id;
     }
 
-    public String getTypel() {
-        return typel;
+    public String getType() {
+        return type;
     }
 
-    public void setTypel(String typel) {
-        this.typel = typel;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public float getPrice() {
