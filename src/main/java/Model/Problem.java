@@ -1,9 +1,9 @@
-package Model;
+package model;
 
 public class Problem {
     private int id;
     private String problem;
-    private int problemType;
+    private float price;
 
     public int getId() {
         return id;
@@ -21,11 +21,11 @@ public class Problem {
         this.problem = problem;
     }
 
-    public int getProblemType() {
-        return problemType;
+    public float getPrice() {
+        return price;
     }
 
-    public void setProblemType(int problemType) {
-        this.problemType = problemType;
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

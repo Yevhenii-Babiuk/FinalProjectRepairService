@@ -1,7 +1,8 @@
-package DAO;
+package dao;
 
-import Model.Order;
-import Util.MySQLConnector;
+import model.Order;
+import model.Status;
+import util.MySQLConnector;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,169 +10,424 @@ import java.util.List;
 
 public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
 
-    private Order setOrderFromDb(ResultSet resultSet) {
-        Order order = new Order();
-        try {
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getBoolean("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return order;
-    }
-
-    private void setOrderToDb(PreparedStatement preparedStatement, Order entity) {
-        try {
-            preparedStatement.setInt(1, entity.getId());
-            preparedStatement.setInt(2, entity.getClient());
-            preparedStatement.setInt(3, entity.getManager());
-            preparedStatement.setInt(4, entity.getMaster());
-            preparedStatement.setInt(5, entity.getDevice());
-            preparedStatement.setInt(6, entity.getProblem());
-            preparedStatement.setDate(7, entity.getStart_date());
-            preparedStatement.setBoolean(8, entity.isStatus());
-            preparedStatement.setDate(9, entity.getEnd_date());
-            preparedStatement.setInt(10, entity.getFeedback());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private Order getOrderFromDb(String sql, Integer parametr) {
-        Order order = new Order();
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
-        try {
-            preparedStatement.setInt(1, parametr);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order = setOrderFromDb(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closePrepareStatement(preparedStatement);
-        }
-        return order;
-    }
-
-    private Order getOrderFromDb(String sql, Date min, Date max) {
-        Order order = new Order();
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
-        try {
-            preparedStatement.setDate(1, min);
-            preparedStatement.setDate(2, max);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order = setOrderFromDb(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closePrepareStatement(preparedStatement);
-        }
-        return order;
-    }
 
     @Override
     public Order getOrderByClient(Integer client) {
         String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE client = ?";
-        return getOrderFromDb(sql, client);
-    }
-
-    @Override
-    public Order getOrderByManager(Integer manager) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE manager = ?";
-        return getOrderFromDb(sql, manager);
+        Connection connection = getConnection();
+        Order order = new Order();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, client);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return order;
     }
 
     @Override
     public Order getOrderByMaster(Integer master) {
         String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE master = ?";
-        return getOrderFromDb(sql, master);
+        Connection connection = getConnection();
+        Order order = new Order();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, master);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return order;
+    }
+
+    @Override
+    public Order getOrderByManager(Integer manager) {
+        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE manager = ?";
+        Connection connection = getConnection();
+        Order order = new Order();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, manager);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return order;
     }
 
     @Override
     public Order getOrderByDevice(Integer device) {
         String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE device = ?";
-        return getOrderFromDb(sql, device);
+        Connection connection = getConnection();
+        Order order = new Order();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, device);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return order;
     }
 
     @Override
     public Order getOrderByProblem(Integer problem) {
         String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE problem = ?";
-        return getOrderFromDb(sql, problem);
+        Connection connection = getConnection();
+        Order order = new Order();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, problem);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return order;
     }
 
     @Override
     public Order getOrderByStartDate(Date min, Date max) {
         String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE start_date BETWEEN ? AND ?";
-        return getOrderFromDb(sql, min, max);
+        Connection connection = getConnection();
+        Order order = new Order();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, min);
+            preparedStatement.setDate(2, max);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return order;
     }
 
     @Override
     public Order getOrderByEndDate(Date min, Date max) {
         String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE end_date BETWEEN ? AND ?";
-        return getOrderFromDb(sql, min, max);
-    }
-
-    @Override
-    public Order getOrderByStatus(Boolean status) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE status IS ?";
+        Connection connection = getConnection();
         Order order = new Order();
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
+        PreparedStatement preparedStatement =null;
         try {
-            preparedStatement.setBoolean(1, status);
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, min);
+            preparedStatement.setDate(2, max);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            order = setOrderFromDb(resultSet);
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closePrepareStatement(preparedStatement);
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return order;
+    }
+
+    @Override
+    public Order getOrderByStatus(Status status) {
+        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE status LIKE  ?";
+        Connection connection = getConnection();
+        Order order = new Order();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, status.getStatusToString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return order;
     }
 
     @Override
     public void add(Order entity) {
-        String sql = "INSERT INTO `order` (id, client, manager, master, device, problem, start_date, status, end_date, feedback) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
-
+        String sql = "INSERT INTO `order` (id, client, master, manager, device, problem, start_date, status, end_date, feedback) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
         try {
-            setOrderToDb(preparedStatement, entity);
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, entity.getId());
+            preparedStatement.setInt(2, entity.getClient());
+            preparedStatement.setInt(3, entity.getMaster());
+            preparedStatement.setInt(4, entity.getManager());
+            preparedStatement.setInt(5, entity.getDevice());
+            preparedStatement.setInt(6, entity.getProblem());
+            preparedStatement.setDate(7, entity.getStart_date());
+            preparedStatement.setString(8, entity.getStatus().getStatusToString());
+            preparedStatement.setDate(9, entity.getEnd_date());
+            preparedStatement.setInt(10, entity.getFeedback());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closePrepareStatement(preparedStatement);
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     @Override
-    public List<Order> getAll() throws SQLException {
+    public List<Order> getAll() {
         List<Order> orderList = new ArrayList<>();
+        Connection connection = getConnection();
         String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order`";
-        Statement statement = getStatament();
+        Statement statement = null;
         try {
-
+            statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                Order order = setOrderFromDb(resultSet);
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closeStatement(statement);
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return orderList;
     }
@@ -179,38 +435,110 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
     @Override
     public Order getEntityByKey(Integer id) {
         String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE id = ?";
-        return getOrderFromDb(sql, id);
+        Connection connection = getConnection();
+        Order order = new Order();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            order.setId(resultSet.getInt("id"));
+            order.setClient(resultSet.getInt("client"));
+            order.setMaster(resultSet.getInt("master"));
+            order.setManager(resultSet.getInt("manager"));
+            order.setDevice(resultSet.getInt("device"));
+            order.setProblem(resultSet.getInt("problem"));
+            order.setStart_date(resultSet.getDate("start_date"));
+            order.setStatus(resultSet.getString("status"));
+            order.setEnd_date(resultSet.getDate("end_date"));
+            order.setFeedback(resultSet.getInt("feedback"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return order;
     }
 
     @Override
     public void update(Order entity) {
         String sql = "UPDATE `order` SET id=?, client=?, manager=?, master=?, device=?, problem=?, start_date=?, status=?, end_date=?, feedback=? WHERE id=?";
-
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
-
+        Connection connection =getConnection();
+        PreparedStatement preparedStatement = null;
         try {
-            setOrderToDb(preparedStatement, entity);
-            preparedStatement.setInt(4, entity.getId());
+            preparedStatement =connection.prepareStatement(sql);
+            preparedStatement.setInt(1, entity.getId());
+            preparedStatement.setInt(2, entity.getClient());
+            preparedStatement.setInt(3, entity.getManager());
+            preparedStatement.setInt(4, entity.getMaster());
+            preparedStatement.setInt(5, entity.getDevice());
+            preparedStatement.setInt(6, entity.getProblem());
+            preparedStatement.setDate(7, entity.getStart_date());
+            preparedStatement.setString(8, entity.getStatus().getStatusToString());
+            preparedStatement.setDate(9, entity.getEnd_date());
+            preparedStatement.setInt(10, entity.getFeedback());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closePrepareStatement(preparedStatement);
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     @Override
     public void delete(Order entity) {
+        Connection connection = getConnection();
         String sql = "DELETE  FROM `order` WHERE id=?";
-        PreparedStatement preparedStatement =getPrepareStatement(sql);
-
+        PreparedStatement preparedStatement = null;
         try {
+            preparedStatement =connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            closePrepareStatement(preparedStatement);
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
+
 }

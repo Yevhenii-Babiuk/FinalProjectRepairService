@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.sql.Date;
 
@@ -10,9 +10,17 @@ public class Order {
     private int device;
     private int problem;
     private Date start_date;
-    private boolean status;
+    private Status status;
     private Date end_date;
     private int feedback;
+
+    public int getManager() {
+        return manager;
+    }
+
+    public void setManager(int manager) {
+        this.manager = manager;
+    }
 
     public int getId() {
         return id;
@@ -36,14 +44,6 @@ public class Order {
 
     public void setClient(int client) {
         this.client = client;
-    }
-
-    public int getManager() {
-        return manager;
-    }
-
-    public void setManager(int manager) {
-        this.manager = manager;
     }
 
     public int getMaster() {
@@ -70,11 +70,11 @@ public class Order {
         this.start_date = start_date;
     }
 
-    public boolean isStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -93,4 +93,13 @@ public class Order {
     public void setFeedback(int feedback) {
         this.feedback = feedback;
     }
+
+    public void setStatus(String status) {
+        for (Status st : Status.values()) {
+            if (status.equals(st.getStatusToString())) {
+                setStatus(st);
+            }
+        }
+    }
+
 }

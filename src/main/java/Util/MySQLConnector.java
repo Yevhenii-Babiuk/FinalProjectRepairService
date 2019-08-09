@@ -1,4 +1,4 @@
-package Util;
+package util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -52,44 +52,17 @@ public class MySQLConnector {
         return connection;
     }
 
-    public PreparedStatement getPrepareStatement(String sql) {
-        PreparedStatement preparedStatement = null;
+    public void closeQuietly(Connection conn) {
         try {
-            preparedStatement = connection.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            conn.close();
+        } catch (Exception e) {
         }
-
-        return preparedStatement;
     }
 
-    public Statement getStatament(){
-        Statement statement = null;
+    public void rollbackQuietly(Connection conn) {
         try {
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return statement;
-    }
-
-    public void closePrepareStatement(PreparedStatement preparedStatement) {
-        if (preparedStatement != null) {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void closeStatement(Statement statement) {
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            conn.rollback();
+        } catch (Exception e) {
         }
     }
 }

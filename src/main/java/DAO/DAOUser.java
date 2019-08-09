@@ -1,10 +1,10 @@
-package DAO;
+package dao;
 
-import Model.Role;
-import Model.User;
+import model.Role;
+import model.User;
 
-public interface DAOUser extends DAO<User,Integer>{
-    public User getEntityBySurame(String surname);
+public interface DAOUser extends DAO<User,Integer> {
+    public User getEntityBySurname(String surname);
     public User getEntityByRole(Role role);
     public User getEntityByLogin(String login);
 

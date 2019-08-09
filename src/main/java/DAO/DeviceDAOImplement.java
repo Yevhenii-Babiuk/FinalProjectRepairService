@@ -1,173 +1,332 @@
-package DAO;
+package dao;
 
-import Model.Device;
-import Util.MySQLConnector;
+import model.Device;
+import util.MySQLConnector;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
 
-    private Device setDeviceFromDb(ResultSet resultSet) {
-         Device device = new Device();
-        try {
-            device.setId(resultSet.getInt("id"));
-            device.setClient(resultSet.getInt("client"));
-            device.setBrand(resultSet.getString("brand"));
-            device.setModel(resultSet.getString("model"));
-            device.setImei(resultSet.getString("imei"));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return device;
-    }
-
-    private Device getDeviceFromDb(String sql, String parametr) {
-        Device device = new Device();
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
-        try {
-            preparedStatement.setString(1, parametr);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            device = setDeviceFromDb(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closePrepareStatement(preparedStatement);
-        }
-        return device;
-    }
-
-    private Device getDeviceFromDb(String sql, Integer parametr) {
-        Device device = new Device();
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
-        try {
-            preparedStatement.setInt(1, parametr);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            device = setDeviceFromDb(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closePrepareStatement(preparedStatement);
-        }
-        return device;
-    }
-
-    private void setDeviceToDb(PreparedStatement preparedStatement, Device entity)  {
-        try {
-            preparedStatement.setInt(1, entity.getId());
-            preparedStatement.setInt(2, entity.getClient());
-            preparedStatement.setString(3, entity.getBrand());
-            preparedStatement.setString(4, entity.getModel());
-            preparedStatement.setString(5, entity.getImei());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public List<Device> getAll() {
+        Connection connection = getConnection();
         List<Device> deviceList = new ArrayList<>();
         String sql = "SELECT id, client, brand, model, imei FROM `device`";
-        Statement statement = getStatament();
+        Statement statement = null;
         try {
-
+            statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                Device device = setDeviceFromDb(resultSet);
+                Device device = new Device();
+                device.setId(resultSet.getInt("id"));
+                device.setClient(resultSet.getInt("client"));
+                device.setBrand(resultSet.getString("brand"));
+                device.setModel(resultSet.getString("model"));
+                device.setImei(resultSet.getString("imei"));
                 deviceList.add(device);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closeStatement(statement);
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return deviceList;
     }
 
     @Override
     public void add(Device entity) {
+        Connection connection = getConnection();
         String sql = "INSERT INTO `device` (id, client, brand, model, imei) VALUES (?, ?, ?, ?, ?)";
-
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
+        PreparedStatement preparedStatement = null;
         try {
-            setDeviceToDb(preparedStatement, entity);
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, entity.getId());
+            preparedStatement.setInt(2, entity.getClient());
+            preparedStatement.setString(3, entity.getBrand());
+            preparedStatement.setString(4, entity.getModel());
+            preparedStatement.setString(5, entity.getImei());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closePrepareStatement(preparedStatement);
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
     }
 
     @Override
     public void update(Device entity) {
         String sql = "UPDATE `device` SET id=?, client=?, brand=?, model=?, imei=? WHERE id=?";
-
-        PreparedStatement preparedStatement = getPrepareStatement(sql);
-
+        Connection connection =getConnection();
+        PreparedStatement preparedStatement = null;
         try {
-            setDeviceToDb(preparedStatement, entity);
+            preparedStatement =connection.prepareStatement(sql);
+            preparedStatement.setInt(1, entity.getId());
+            preparedStatement.setInt(2, entity.getClient());
+            preparedStatement.setString(3, entity.getBrand());
+            preparedStatement.setString(4, entity.getModel());
+            preparedStatement.setString(5, entity.getImei());
             preparedStatement.setInt(6, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closePrepareStatement(preparedStatement);
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     @Override
     public void delete(Device entity) {
-        String sql = "DELETE FROM `device` WHERE ID=?";
-        PreparedStatement preparedStatement =getPrepareStatement(sql);
-
+        Connection connection = getConnection();
+        String sql = "DELETE FROM `device` WHERE id=?";
+        PreparedStatement preparedStatement = null;
         try {
+            preparedStatement =connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            closePrepareStatement(preparedStatement);
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     @Override
     public Device getEntityByKey(Integer id) {
+        Connection connection = getConnection();
         String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE id = ?";
-        return getDeviceFromDb(sql, id);
+        Device device = new Device();
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            device.setId(resultSet.getInt("id"));
+            device.setClient(resultSet.getInt("client"));
+            device.setBrand(resultSet.getString("brand"));
+            device.setModel(resultSet.getString("model"));
+            device.setImei(resultSet.getString("imei"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return device;
     }
 
     @Override
     public Device getDeviceByBrand(String brand) {
-        String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE surname LIKE ?";
-        return getDeviceFromDb(sql, brand);
+        Connection connection = getConnection();
+        String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE brand LIKE ?";
+        Device device = new Device();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, brand);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            device.setId(resultSet.getInt("id"));
+            device.setClient(resultSet.getInt("client"));
+            device.setBrand(resultSet.getString("brand"));
+            device.setModel(resultSet.getString("model"));
+            device.setImei(resultSet.getString("imei"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return device;
     }
 
     @Override
     public Device getDeviceByModel(String model) {
-        String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE surname LIKE ?";
-        return getDeviceFromDb(sql, model);
+        Connection connection = getConnection();
+        String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE model LIKE ?";
+        Device device = new Device();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, model);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            device.setId(resultSet.getInt("id"));
+            device.setClient(resultSet.getInt("client"));
+            device.setBrand(resultSet.getString("brand"));
+            device.setModel(resultSet.getString("model"));
+            device.setImei(resultSet.getString("imei"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return device;
     }
 
     @Override
     public Device getDeviceByIMEI(String imei) {
-        String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE surname LIKE ?";
-        return getDeviceFromDb(sql, imei);
+        Connection connection = getConnection();
+        String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE imei LIKE ?";
+        Device device = new Device();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, imei);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            device.setId(resultSet.getInt("id"));
+            device.setClient(resultSet.getInt("client"));
+            device.setBrand(resultSet.getString("brand"));
+            device.setModel(resultSet.getString("model"));
+            device.setImei(resultSet.getString("imei"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return device;
     }
 
     @Override
     public Device getDeviceByClient(Integer client) {
+        Connection connection = getConnection();
         String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE client = ?";
-        return getDeviceFromDb(sql, client);
+        Device device = new Device();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, client);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            device.setId(resultSet.getInt("id"));
+            device.setClient(resultSet.getInt("client"));
+            device.setBrand(resultSet.getString("brand"));
+            device.setModel(resultSet.getString("model"));
+            device.setImei(resultSet.getString("imei"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return device;
     }
 }

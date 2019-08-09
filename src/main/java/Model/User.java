@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class User {
     private int id;
@@ -71,6 +71,7 @@ public class User {
     public Role getRole() {
         return role;
     }
+
 
     public void setRole(Role role) {
         this.role = role;

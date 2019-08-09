@@ -1,6 +1,6 @@
-package DAO;
+package dao;
 
-import Model.Device;
+import model.Device;
 
 interface DAODevice extends DAO<Device, Integer> {
     public Device getDeviceByBrand(String brand);
