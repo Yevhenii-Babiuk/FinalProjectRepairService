@@ -12,22 +12,17 @@
     <script type="text/javascript">
         function submitForm(form) {
             var obj = {};
-            obj.name = form.name.value;
-            obj.surname = form.surname.value;
-            obj.phone = "+"+form.phone.value;
-            obj.address = form.address.value;
-            obj.login = form.login.value;
-            obj.password = form.password.value;
-            obj.role= form.role.value;
+            obj.brand = form.brand.value;
+            obj.model = form.model.value;
+            obj.imei = form.imei.value;
+            obj.comment = form.comment.value;
+            obj.clientId = form.clientId.value;
             var jsonObject = JSON.stringify(obj);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', "/newUser", true);
+            xhr.open('POST', "/orders", true);
             xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
             xhr.send(jsonObject);
-            xhr.onload = function () {
-                location.replace(xhr.responseText);
-            }
         }
     </script>
     <style>
@@ -51,11 +46,11 @@
                 Menu
             </label>
             <ul class="nav_right">
-                <li><a href="<c:url value='/account/login' />" class="nav_item">Authorization</a></li>
-                <li><a href="<c:url value='/account/office' />" class="nav_item">user`s office</a></li>
-                <li><a href="<c:url value='/registration' />" class="nav_item">Registration</a></li>
-                <li><a href="<c:url value='/contact' />" class="nav_item">Contact</a></li>
-                <li><a href="<c:url value='/price' />" class="nav_item">Price</a></li>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item">Orders</a></li>
+                <li><a href="<c:url value='/account/add_order'/>" class="nav_item">Add orders</a></li>
+                <li><a href="<c:url value='/account/add_feedback'/>" class="nav_item">Add feedback</a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item">Edit profile</a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item">Log out</a></li>
             </ul>
         </div>
     </div>
@@ -74,14 +69,12 @@
         </div>
 
         <form name="user" class="contact_form" onsubmit="event.preventDefault();submitForm(this);">
-            <input type="text" required placeholder="Name" name="name">
-            <input type="text" required placeholder="Surname" name="surname">
-            <input type="text" required placeholder="Phone" pattern="+[0-9]{11,12}" name="phone">
-            <input type="text" required placeholder="Address" name="address">
-            <input type="email" required placeholder="Login" name="login">
-            <input type="password" required placeholder="Password" name="password">
-            <input type="hidden" required name="role" value="client">
-            <input name="submit" id="button" class="btn_send" type="submit" value="Registration">
+            <input type="text" required placeholder="Brand" name="brand">
+            <input type="text" required placeholder="Model" name="model">
+            <input type="text" required placeholder="IMEI" name="imei">
+            <input type="text" required placeholder="Comment" name="comment">
+            <input type="hidden" name="clientId" value="${sessionScope.id}" >
+            <input name="submit" id="button" class="btn_send" type="submit" value="Send order">
         </form>
     </div>
 </section>

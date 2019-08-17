@@ -1,6 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="text"/>
+<html lang="param.locale">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,11 +29,9 @@
                 Menu
             </label>
             <ul class="nav_right">
-                <li><a href="<c:url value='/user/login' />" class="nav_item">Authorization</a></li>
-                <li><a href="<c:url value='/user/account' />" class="nav_item">user`s office</a></li>
-                <li><a href="<c:url value='/registration' />" class="nav_item">Registration</a></li>
-                <li><a href="contact.jsp" class="nav_item">Contact</a></li>
-                <li><a href="price.jsp" class="nav_item">Price</a></li>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item">Orders</a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item">Edit profile</a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item">Log out</a></li>
             </ul>
         </div>
     </div>

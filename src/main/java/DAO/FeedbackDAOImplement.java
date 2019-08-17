@@ -42,7 +42,7 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
     }
 
     @Override
-    public List<Feedback> getAll(){
+    public List<Feedback> getAll() {
         Connection connection = getConnection();
         List<Feedback> feedbackList = new ArrayList<>();
         String sql = "SELECT id, rate, text FROM `feedback`";
@@ -82,7 +82,7 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
     public Feedback getEntityByKey(Integer id) {
         Connection connection = getConnection();
         String sql = "SELECT id, rate, text FROM `feedback` WHERE id = ?";
-        PreparedStatement preparedStatement =null;
+        PreparedStatement preparedStatement = null;
         Feedback feedback = new Feedback();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -116,10 +116,10 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
     @Override
     public void update(Feedback entity) {
         String sql = "UPDATE `feedback` SET id=?, rate=?, text=? WHERE id=?";
-        Connection connection =getConnection();
+        Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement =connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.setInt(2, entity.getRate());
             preparedStatement.setString(3, entity.getText());
@@ -150,7 +150,7 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
         String sql = "DELETE  FROM `feedback` WHERE id=?";
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement =connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -174,20 +174,22 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
     }
 
     @Override
-    public Feedback getFeedbackByRate(Integer rate) {
+    public List<Feedback> getFeedbackByRate(Integer rate) {
         String sql = "SELECT id, rate, text FROM `feedback` WHERE rate = ?";
         Connection connection = getConnection();
-
-        PreparedStatement preparedStatement =null;
-        Feedback feedback = new Feedback();
+        PreparedStatement preparedStatement = null;
+        List<Feedback> feedbackList = new ArrayList<>();
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, rate);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            feedback.setId(resultSet.getInt("id"));
-            feedback.setRate(resultSet.getInt("rate"));
-            feedback.setText(resultSet.getString("text"));
+            while (resultSet.next()) {
+                Feedback feedback = new Feedback();
+                feedback.setId(resultSet.getInt("id"));
+                feedback.setRate(resultSet.getInt("rate"));
+                feedback.setText(resultSet.getString("text"));
+                feedbackList.add(feedback);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -206,6 +208,6 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
                 }
             }
         }
-        return feedback;
+        return feedbackList;
     }
 }

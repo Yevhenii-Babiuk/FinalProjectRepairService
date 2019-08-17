@@ -15,10 +15,11 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         List<User> userList = new ArrayList<>();
         String sql = "SELECT id, name, surname, address, phone, login, password, role FROM `user`";
         Connection connection = getConnection();
+        ResultSet resultSet = null;
         Statement statement = null;
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
                 User user = new User();
@@ -33,7 +34,13 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
                 userList.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                if (!resultSet.next()) {
+                    return null;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } finally {
             if (statement != null) {
                 try {
@@ -92,7 +99,7 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
     @Override
     public void update(User entity) {
         String sql = "UPDATE `user` SET id=?, name=?, surname=?, address=?, phone=?, login=?, password=?, role=? WHERE id=?";
-        Connection connection =getConnection();
+        Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -131,7 +138,7 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement =connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -158,12 +165,13 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
     public User getEntityByKey(Integer id) {
         String sql = "SELECT id, name, surname, address, phone, login, password, role FROM `user` WHERE id = ?";
         User user = new User();
+        ResultSet resultSet = null;
         Connection connection = getConnection();
-        PreparedStatement preparedStatement =null;
+        PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             user.setId(resultSet.getInt("id"));
             user.setName(resultSet.getString("name"));
@@ -173,8 +181,13 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
             user.setLogin(resultSet.getString("login"));
             user.setPassword(resultSet.getString("password"));
             user.setRole(resultSet.getString("role"));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }catch (SQLException e) {
+            try {
+                if (!resultSet.next()) {
+                    return null;}
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -198,12 +211,13 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
     public User getEntityBySurname(String surname) {
         String sql = "SELECT id, name, surname, address, phone, login, password, role FROM `user` WHERE surname LIKE ?";
         User user = new User();
+        ResultSet resultSet = null;
         Connection connection = getConnection();
-        PreparedStatement preparedStatement =null;
+        PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, surname);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             user.setId(resultSet.getInt("id"));
             user.setName(resultSet.getString("name"));
@@ -214,7 +228,13 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
             user.setPassword(resultSet.getString("password"));
             user.setRole(resultSet.getString("role"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                if (!resultSet.next()) {
+                    return null;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -235,24 +255,27 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
     }
 
     @Override
-    public User getEntityByRole(Role role) {
+    public List<User> getEntityByRole(Role role) {
+        List<User> userList = new ArrayList<>();
         String sql = "SELECT id, name, surname, address, phone, login, password, role FROM `user` WHERE role LIKE ?";
-        User user = new User();
         Connection connection = getConnection();
-        PreparedStatement preparedStatement =null;
+        PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, role.getRoleToString());
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            user.setId(resultSet.getInt("id"));
-            user.setName(resultSet.getString("name"));
-            user.setSurname(resultSet.getString("surname"));
-            user.setAddress(resultSet.getString("address"));
-            user.setPhone(resultSet.getString("phone"));
-            user.setLogin(resultSet.getString("login"));
-            user.setPassword(resultSet.getString("password"));
-            user.setRole(resultSet.getString("role"));
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setAddress(resultSet.getString("address"));
+                user.setPhone(resultSet.getString("phone"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setRole(resultSet.getString("role"));
+                userList.add(user);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -271,7 +294,7 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
                 }
             }
         }
-        return user;
+        return userList;
     }
 
     @Override
@@ -279,7 +302,7 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         String sql = "SELECT id, name, surname, address, phone, login, password, role FROM `user` WHERE login LIKE ?";
         User user = new User();
         Connection connection = getConnection();
-        PreparedStatement preparedStatement =null;
+        PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -296,7 +319,7 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
             user.setRole(resultSet.getString("role"));
         } catch (SQLException e) {
             try {
-                if(!resultSet.next()){
+                if (!resultSet.next()) {
                     return null;
                 }
             } catch (SQLException ex) {

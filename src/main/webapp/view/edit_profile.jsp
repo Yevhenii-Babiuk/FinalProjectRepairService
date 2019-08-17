@@ -1,6 +1,10 @@
+<%@ page import="model.User" %>
+<%@ page import="dao.UserDAOImplement" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%String login =  request.getSession().getAttribute("login").toString();%>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="text"/>
@@ -14,15 +18,15 @@
             var obj = {};
             obj.name = form.name.value;
             obj.surname = form.surname.value;
-            obj.phone = "+"+form.phone.value;
+            obj.phone = form.phone.value;
             obj.address = form.address.value;
             obj.login = form.login.value;
             obj.password = form.password.value;
-            obj.role= form.role.value;
+            obj.role= null;
             var jsonObject = JSON.stringify(obj);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', "/newUser", true);
+            xhr.open('POST', "/account/edit", true);
             xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
             xhr.send(jsonObject);
             xhr.onload = function () {
@@ -72,16 +76,15 @@
             </div>
             <div class="divider_custom-line line-dark"></div>
         </div>
-
+        <%User user = new UserDAOImplement().getEntityByLogin(login);%>
         <form name="user" class="contact_form" onsubmit="event.preventDefault();submitForm(this);">
-            <input type="text" required placeholder="Name" name="name">
-            <input type="text" required placeholder="Surname" name="surname">
-            <input type="text" required placeholder="Phone" pattern="+[0-9]{11,12}" name="phone">
-            <input type="text" required placeholder="Address" name="address">
-            <input type="email" required placeholder="Login" name="login">
-            <input type="password" required placeholder="Password" name="password">
-            <input type="hidden" required name="role" value="client">
-            <input name="submit" id="button" class="btn_send" type="submit" value="Registration">
+            <input type="text" required placeholder="Name" name="name" value="<%user.getName();%>">
+            <input type="text" required placeholder="Surname" name="surname" value="<%user.getSurname();%>">
+            <input type="text" required placeholder="Phone" pattern="+[0-9]{11,12}" name="phone" value="<%user.getPhone();%>">
+            <input type="text" required placeholder="Address" name="address" value="<%user.getAddress();%>">
+            <input type="text" readonly required placeholder="Login" name="login" value="<%user.getLogin();%>">
+            <input type="password" required placeholder="Password" name="password" value="<%user.getPassword();%>">
+            <input name="submit" id="button" class="btn_send" type="submit" value="Save">
         </form>
     </div>
 </section>

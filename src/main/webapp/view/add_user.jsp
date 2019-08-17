@@ -77,10 +77,15 @@
             <input type="text" required placeholder="Name" name="name">
             <input type="text" required placeholder="Surname" name="surname">
             <input type="text" required placeholder="Phone" pattern="+[0-9]{11,12}" name="phone">
+            <select name="role" required id="role">
+                <option value="client">Client</option>
+                <option value="master">Master</option>
+                <option value="manager">Manager</option>
+                <option value="admin">Admin</option>
+            </select>
             <input type="text" required placeholder="Address" name="address">
             <input type="email" required placeholder="Login" name="login">
             <input type="password" required placeholder="Password" name="password">
-            <input type="hidden" required name="role" value="client">
             <input name="submit" id="button" class="btn_send" type="submit" value="Registration">
         </form>
     </div>

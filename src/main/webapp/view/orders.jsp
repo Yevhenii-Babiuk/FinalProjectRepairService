@@ -1,10 +1,16 @@
-<%@ page import="model.Order" %>
 <%@ page import="dto.OrderDTO" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="model.Role" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%ArrayList orders = (ArrayList) request.getAttribute("orders");%>
-<html>
+<%int id = (Integer) request.getSession().getAttribute("id");%>
+<%Role role = (Role) request.getSession().getAttribute("role");%>
+
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="text"/>
+<html lang="param.locale">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +34,7 @@
     <div class="container">
         <input type="checkbox" id="menu">
         <div class="nav_wrap">
-            <a class="nav_left nav_item" href="#page-top">Repair service</a>
+            <a class="nav_left nav_item" href="<c:url value='/' />">Repair service</a>
             <label for="menu"><i class="fas fa-bars"></i>
                 Menu
             </label>
@@ -48,8 +54,10 @@
 </header>
 <section class="portfolio">
     <div class="container grid-container">
+        <%if (role != Role.CLIENT) {%>
         <div id="form" class="item1">
             <form name="order" class="order_form" onsubmit="event.preventDefault();onFormSubmit();">
+                <input type="hidden" name="orderId" id="orderId">
                 <input type="text" required placeholder="Master surname" name="masterSurname" id="masterSurname">
                 <input type="text" required placeholder="Manager surname" name="managerSurname" id="managerSurname">
                 <input type="text" required placeholder="Solving" name="solving" id="solving">
@@ -60,7 +68,9 @@
                 </select>
                 <input type="date" placeholder="End date" name="endDate" id="endDate">
                 <input name="submit" id="button" class="btn_send" type="submit" value="Enter">
+            </form>
         </div>
+        <%}%>
         <div id="table" class="item2">
             <table class="list" id="employeeList">
                 <thead>
@@ -78,11 +88,27 @@
                     <th>Status</th>
                     <th>End Date</th>
                     <th>Feedback</th>
+                    <%if (role != Role.CLIENT) {%>
                     <th></th>
+                    <%}%>
                 </tr>
                 </thead>
                 <% for (int i = 0; i < orders.size(); i++) {%>
-                <%OrderDTO order = (OrderDTO) orders.get(i);%>
+                <% OrderDTO order = (OrderDTO) orders.get(i);%>
+                <%
+                    if (role.equals(Role.CLIENT) &&
+                            order.getOrder().getClient() != id) {
+                        continue;
+                    }
+                    if (role.equals(Role.MANAGER) &&(
+                            order.getManagerSurname()!=null) && order.getOrder().getManager() != id) {
+                        continue;
+                    }
+                    if (role.equals(Role.MASTER) &&
+                            order.getOrder().getMaster() != id) {
+                        continue;
+                    } else {
+                %>
                 <tr>
                     <td><%=order.getOrder().getId()%>
                     </td>
@@ -96,9 +122,10 @@
                     </td>
                     <td><%=order.getDevice()%>
                     </td>
+                    <td><%=order.getOrder().getComment()%>
+                    </td>
                     <td><%=order.getProblem()%>
                     </td>
-                    <td></td>
                     <td><%=order.getPrice()%>
                     </td>
                     <td><%=order.getOrder().getStart_date()%>
@@ -109,10 +136,13 @@
                     </td>
                     <td><%=order.getFeedback()%>
                     </td>
+                    <%if (role != Role.CLIENT) {%>
                     <td>
                         <button onclick="onEdit(this)">Edit</button>
                     </td>
+                    <%}%>
                 </tr>
+                <%}%>
                 <% }%>
             </table>
         </div>

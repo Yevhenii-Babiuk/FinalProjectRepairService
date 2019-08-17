@@ -231,6 +231,7 @@ body {
 }
 
 table {
+  overflow-x:auto;
   border-collapse: collapse;
   width: 100%;
   color: #000000;
@@ -439,6 +440,33 @@ label[for="menu"]:hover {
 }
 
 input#menu:checked ~ .nav_wrap .nav_right {
+  display: flex;
+  flex-direction: column;
+}
+
+label[for="option"] {
+  padding: 8px 15px;
+  border: 3px solid #1abc9c;
+  border-radius: 5px;
+  background-color: #1abc9c;;
+  color: #ffffff;;
+  font-size: 0.75rem;
+  transition: all 0.25s;
+  font-family: 'Montserrat', sans-serif;
+  display: none;
+}
+
+input[id="option"] {
+  display: none;
+}
+
+label[for="option"]:hover {
+  background-color: #159a80;
+  border-color: #148f77;
+  cursor: pointer;
+}
+
+input#option:checked ~ .nav_wrap .nav_right {
   display: flex;
   flex-direction: column;
 }

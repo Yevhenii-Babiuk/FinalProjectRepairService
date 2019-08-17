@@ -2,6 +2,7 @@ package servlet;
 
 
 
+import model.Role;
 import service.AddUser;
 
 import javax.servlet.ServletException;
@@ -22,10 +23,14 @@ public class AddUserServlet extends HttpServlet {
         while (parameterNames.hasMoreElements()) {
             parametr = parameterNames.nextElement();
             }
-        if (new AddUser().addUserToDatabase(parametr)){
-            out.write("/user/login");
+        AddUser addUser = new AddUser();
+        if (addUser.addUserToDatabase(parametr) && request.getSession().getAttribute("role").toString().equals(Role.CLIENT)){
+            out.write("/account");
             /*request.getRequestDispatcher("/user/login").forward(request, response);*/
-        }else {
+        }else if (addUser.addUserToDatabase(parametr) && request.getSession().getAttribute("role").toString().equals(Role.CLIENT)){
+            out.write("/account/add_user");
+        }
+        else {
             out.write("/userExist");
             /*request.getRequestDispatcher("/userExist").forward(request, response);*/
         }

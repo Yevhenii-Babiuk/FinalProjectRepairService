@@ -9,10 +9,19 @@ public class Order {
     private int master;
     private int device;
     private int problem;
+    private String comment;
     private Date start_date;
     private Status status;
     private Date end_date;
     private int feedback;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public int getManager() {
         return manager;

@@ -10,22 +10,21 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
 
-        final HttpSession session = req.getSession();
+        final HttpSession session = request.getSession();
 
         session.removeAttribute("password");
         session.removeAttribute("login");
         session.removeAttribute("role");
 
         String path = super.getServletContext().getContextPath();
-        System.out.println(path);
 
         if (path.equals(""))
             path = "/";
-        resp.sendRedirect(path);
+        response.sendRedirect(path);
     }
 
 }

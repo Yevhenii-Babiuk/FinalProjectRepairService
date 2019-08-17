@@ -183,21 +183,24 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
     }
 
     @Override
-    public Device getDeviceByBrand(String brand) {
+    public List<Device> getDeviceByBrand(String brand) {
+        List<Device> deviceList = new ArrayList<>();
         Connection connection = getConnection();
         String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE brand LIKE ?";
-        Device device = new Device();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, brand);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            device.setId(resultSet.getInt("id"));
-            device.setClient(resultSet.getInt("client"));
-            device.setBrand(resultSet.getString("brand"));
-            device.setModel(resultSet.getString("model"));
-            device.setImei(resultSet.getString("imei"));
+            while (resultSet.next()) {
+                Device device = new Device();
+                device.setId(resultSet.getInt("id"));
+                device.setClient(resultSet.getInt("client"));
+                device.setBrand(resultSet.getString("brand"));
+                device.setModel(resultSet.getString("model"));
+                device.setImei(resultSet.getString("imei"));
+                deviceList.add(device);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -216,25 +219,29 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
                 }
             }
         }
-        return device;
+        return deviceList;
     }
 
+
     @Override
-    public Device getDeviceByModel(String model) {
+    public List<Device> getDeviceByModel(String model) {
         Connection connection = getConnection();
         String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE model LIKE ?";
-        Device device = new Device();
+        List<Device> deviceList = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, model);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            device.setId(resultSet.getInt("id"));
-            device.setClient(resultSet.getInt("client"));
-            device.setBrand(resultSet.getString("brand"));
-            device.setModel(resultSet.getString("model"));
-            device.setImei(resultSet.getString("imei"));
+            while (resultSet.next()) {
+                Device device = new Device();
+                device.setId(resultSet.getInt("id"));
+                device.setClient(resultSet.getInt("client"));
+                device.setBrand(resultSet.getString("brand"));
+                device.setModel(resultSet.getString("model"));
+                device.setImei(resultSet.getString("imei"));
+                deviceList.add(device);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -253,7 +260,7 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
                 }
             }
         }
-        return device;
+        return deviceList;
     }
 
     @Override
@@ -262,10 +269,11 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE imei LIKE ?";
         Device device = new Device();
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, imei);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             device.setId(resultSet.getInt("id"));
             device.setClient(resultSet.getInt("client"));
@@ -273,7 +281,13 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
             device.setModel(resultSet.getString("model"));
             device.setImei(resultSet.getString("imei"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                if(!resultSet.next()){
+                    return null;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -294,21 +308,24 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
     }
 
     @Override
-    public Device getDeviceByClient(Integer client) {
+    public List<Device> getDeviceByClient(Integer client) {
         Connection connection = getConnection();
         String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE client = ?";
-        Device device = new Device();
+        List<Device> deviceList = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, client);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            device.setId(resultSet.getInt("id"));
-            device.setClient(resultSet.getInt("client"));
-            device.setBrand(resultSet.getString("brand"));
-            device.setModel(resultSet.getString("model"));
-            device.setImei(resultSet.getString("imei"));
+            while (resultSet.next()) {
+                Device device = new Device();
+                device.setId(resultSet.getInt("id"));
+                device.setClient(resultSet.getInt("client"));
+                device.setBrand(resultSet.getString("brand"));
+                device.setModel(resultSet.getString("model"));
+                device.setImei(resultSet.getString("imei"));
+                deviceList.add(device);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -327,6 +344,6 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
                 }
             }
         }
-        return device;
+        return deviceList;
     }
 }

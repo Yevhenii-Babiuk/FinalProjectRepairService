@@ -6,7 +6,6 @@ import java.sql.Date;
 public class Employee {
     private int userId;
     private Date startDate;
-    private int experiense;
 
     public int getUserId() {
         return userId;
@@ -24,11 +23,4 @@ public class Employee {
         this.startDate = startDate;
     }
 
-    public int getExperiense() {
-        return experiense;
-    }
-
-    public void setExperiense(int experiense) {
-        this.experiense = experiense;
-    }
 }

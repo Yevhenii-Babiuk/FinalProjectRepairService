@@ -7,9 +7,11 @@ import model.*;
 public class OrderDTO {
     private Order order;
 
-    public OrderDTO(Order order){this.order=order;}
+    public OrderDTO(Order order) {
+        this.order = order;
+    }
 
-    public Order getOrder(){
+    public Order getOrder() {
         return order;
     }
 
@@ -34,36 +36,57 @@ public class OrderDTO {
     public String getMasterSurname() {
         UserDAOImplement userDAO = new UserDAOImplement();
         User user = userDAO.getEntityByKey(order.getMaster());
-        return user.getSurname();
+        if (user == null) {
+            return null;
+        } else {
+            return user.getSurname();
+        }
     }
 
     public String getManagerSurname() {
         UserDAOImplement userDAO = new UserDAOImplement();
         User user = userDAO.getEntityByKey(order.getManager());
-        return user.getSurname();
+        if (user == null) {
+            return null;
+        } else {
+            return user.getSurname();
+        }
     }
 
     public String getDevice() {
         DeviceDAOImplement deviceDAO = new DeviceDAOImplement();
         Device device = deviceDAO.getEntityByKey(order.getDevice());
-        return device.getBrand()+" "+device.getModel();
+        return device.getBrand() + " " + device.getModel();
     }
 
-    public String getProblem(){
+    public String getProblem() {
         ProblemDAOImplement problemDAO = new ProblemDAOImplement();
         Problem problem = problemDAO.getEntityByKey(order.getProblem());
-        return problem.getProblem();
+        if (problem == null) {
+            return null;
+        } else {
+            return problem.getProblem();
+        }
     }
 
-    public float getPrice(){
+
+    public float getPrice() {
         ProblemDAOImplement problemDAO = new ProblemDAOImplement();
         Problem problem = problemDAO.getEntityByKey(order.getProblem());
-        return problem.getPrice();
+        if (problem == null) {
+            return Float.parseFloat(null);
+        } else {
+            return problem.getPrice();
+        }
     }
 
-    public String getFeedback(){
+    public String getFeedback() {
         FeedbackDAOImplement feedbackDAO = new FeedbackDAOImplement();
         Feedback feedback = feedbackDAO.getEntityByKey(order.getFeedback());
-        return feedback.getText();
+        if (feedback == null) {
+            return null;
+        } else {
+            return feedback.getText();
+        }
     }
 }

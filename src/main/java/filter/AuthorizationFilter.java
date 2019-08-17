@@ -16,7 +16,6 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("AuthFilter init");
     }
 
     @Override
@@ -27,16 +26,14 @@ public class AuthorizationFilter implements Filter {
 
         final HttpServletRequest req = (HttpServletRequest) request;
         final HttpServletResponse res = (HttpServletResponse) response;
+        final HttpSession session = req.getSession();
 
         String servletPath = req.getServletPath();
-        if (servletPath.contains("/user/")) {
+        if (servletPath.contains("/account/office")||servletPath.contains("/account/login")) {
             final String login = req.getParameter("login");
             final String password = req.getParameter("password");
 
-            UserDAOImplement findUser = new UserDAOImplement();
-            User user = findUser.getEntityByLogin(login);
-
-            final HttpSession session = req.getSession();
+            User user = new UserDAOImplement().getEntityByLogin(login);
 
             if (nonNull(session) && nonNull(session.getAttribute("login")) && nonNull(session.getAttribute("password"))) {
 
@@ -46,14 +43,29 @@ public class AuthorizationFilter implements Filter {
             } else if (user != null) {
 
                 final Role role = user.getRole();
-
-                req.getSession().setAttribute("password", password);
+                final int id = user.getId();
+                if (user.getPassword().equals(password)) {
+                    req.getSession().setAttribute("password", password);
+                } else {
+                    req.getRequestDispatcher("/account/login").forward(req, res);
+                }
+                req.getSession().setAttribute("id", id);
                 req.getSession().setAttribute("login", login);
                 req.getSession().setAttribute("role", role);
                 moveToUsersOffice(req, res, role);
             } else {
-                req.getRequestDispatcher("/user/login").forward(req, res);
+                req.getRequestDispatcher("/account/login").forward(req, res);
             }
+        }
+        if (session.getAttribute("role") == null && (servletPath.contains("/account/orders") ||
+                servletPath.contains("/account/employee_add_order") ||
+                servletPath.contains("/account/users") ||
+                servletPath.contains("/account/add_user") ||
+                servletPath.contains("/account/edit_profile") ||
+                servletPath.contains("/account/add_order") ||
+                servletPath.contains("/account/devices"))
+        ) {
+            req.getRequestDispatcher("/account/login").forward(req, res);
         }
         filterChain.doFilter(request, response);
     }

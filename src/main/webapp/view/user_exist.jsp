@@ -1,12 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Evgen
-  Date: 04.08.2019
-  Time: 09:57
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="text"/>
+<html lang="param.locale">
 <head>
     <title>Title</title>
 </head>

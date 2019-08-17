@@ -55,7 +55,6 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
                 Employee employee = new Employee();
                 employee.setUserId(resultSet.getInt("user_id"));
                 employee.setStartDate(resultSet.getDate("start_date"));
-                employee.setExperiense(resultSet.getInt("experience"));
                 employeeList.add(employee);
             }
         } catch (SQLException e) {
@@ -175,20 +174,22 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
     }
 
     @Override
-    public Employee getEmployeeByStartDate(Date dateMin, Date dateMax) {
+    public List<Employee> getEmployeeByStartDate(Date dateMin, Date dateMax) {
         String sql = "SELECT user_id, start_date FROM `employees` WHERE start_date BETWEEN ? AND ?";
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
-        Employee employee = new Employee();
+        List<Employee> employeeList = new ArrayList<>();
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDate(1, dateMin);
             preparedStatement.setDate(2, dateMax);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            employee.setUserId(resultSet.getInt("user_id"));
-            employee.setStartDate(resultSet.getDate("start_date"));
-
+            while (resultSet.next()) {
+                Employee employee = new Employee();
+                employee.setUserId(resultSet.getInt("user_id"));
+                employee.setStartDate(resultSet.getDate("start_date"));
+            employeeList.add(employee);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -207,7 +208,7 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
                 }
             }
         }
-        return employee;
+        return employeeList;
     }
 
 }

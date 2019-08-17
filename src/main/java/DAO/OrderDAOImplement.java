@@ -10,28 +10,31 @@ import java.util.List;
 
 public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
 
-
     @Override
-    public Order getOrderByClient(Integer client) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE client = ?";
+    public List<Order> getOrderByClient(Integer client) {
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE client = ?";
         Connection connection = getConnection();
-        Order order = new Order();
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, client);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getString("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
+                orderList.add(order);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -50,30 +53,34 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 }
             }
         }
-        return order;
+        return orderList;
     }
 
     @Override
-    public Order getOrderByMaster(Integer master) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE master = ?";
+    public List<Order> getOrderByMaster(Integer master) {
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE master = ?";
         Connection connection = getConnection();
-        Order order = new Order();
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, master);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getString("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
+                orderList.add(order);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -92,30 +99,34 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 }
             }
         }
-        return order;
+        return orderList;
     }
 
     @Override
-    public Order getOrderByManager(Integer manager) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE manager = ?";
+    public List<Order> getOrderByManager(Integer manager) {
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE manager = ?";
         Connection connection = getConnection();
-        Order order = new Order();
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, manager);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getString("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
+                orderList.add(order);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -134,30 +145,34 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 }
             }
         }
-        return order;
+        return orderList;
     }
 
     @Override
-    public Order getOrderByDevice(Integer device) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE device = ?";
+    public List<Order> getOrderByDevice(Integer device) {
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE device = ?";
         Connection connection = getConnection();
-        Order order = new Order();
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, device);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getString("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
+                orderList.add(order);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -176,30 +191,34 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 }
             }
         }
-        return order;
+        return orderList;
     }
 
     @Override
-    public Order getOrderByProblem(Integer problem) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE problem = ?";
+    public List<Order> getOrderByProblem(Integer problem) {
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE problem = ?";
         Connection connection = getConnection();
-        Order order = new Order();
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, problem);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getString("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
+                orderList.add(order);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -218,31 +237,35 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 }
             }
         }
-        return order;
+        return orderList;
     }
 
     @Override
-    public Order getOrderByStartDate(Date min, Date max) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE start_date BETWEEN ? AND ?";
+    public List<Order>getOrderByStartDate(Date min, Date max) {
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT id, client, manager, master, device, comment problem, start_date, status, end_date, feedback FROM `order` WHERE start_date BETWEEN ? AND ?";
         Connection connection = getConnection();
-        Order order = new Order();
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDate(1, min);
             preparedStatement.setDate(2, max);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getString("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
+                orderList.add(order);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -261,31 +284,35 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 }
             }
         }
-        return order;
+        return orderList;
     }
 
     @Override
-    public Order getOrderByEndDate(Date min, Date max) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE end_date BETWEEN ? AND ?";
+    public List<Order> getOrderByEndDate(Date min, Date max) {
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE end_date BETWEEN ? AND ?";
         Connection connection = getConnection();
-        Order order = new Order();
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDate(1, min);
             preparedStatement.setDate(2, max);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getString("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
+                orderList.add(order);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -304,30 +331,34 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 }
             }
         }
-        return order;
+        return orderList;
     }
 
     @Override
-    public Order getOrderByStatus(Status status) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE status LIKE  ?";
+    public List<Order> getOrderByStatus(Status status) {
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE status LIKE  ?";
         Connection connection = getConnection();
-        Order order = new Order();
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, status.getStatusToString());
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            order.setId(resultSet.getInt("id"));
-            order.setClient(resultSet.getInt("client"));
-            order.setMaster(resultSet.getInt("master"));
-            order.setManager(resultSet.getInt("manager"));
-            order.setDevice(resultSet.getInt("device"));
-            order.setProblem(resultSet.getInt("problem"));
-            order.setStart_date(resultSet.getDate("start_date"));
-            order.setStatus(resultSet.getString("status"));
-            order.setEnd_date(resultSet.getDate("end_date"));
-            order.setFeedback(resultSet.getInt("feedback"));
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setClient(resultSet.getInt("client"));
+                order.setMaster(resultSet.getInt("master"));
+                order.setManager(resultSet.getInt("manager"));
+                order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
+                order.setProblem(resultSet.getInt("problem"));
+                order.setStart_date(resultSet.getDate("start_date"));
+                order.setStatus(resultSet.getString("status"));
+                order.setEnd_date(resultSet.getDate("end_date"));
+                order.setFeedback(resultSet.getInt("feedback"));
+                orderList.add(order);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -346,26 +377,48 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 }
             }
         }
-        return order;
+        return orderList;
     }
 
     @Override
     public void add(Order entity) {
-        String sql = "INSERT INTO `order` (id, client, master, manager, device, problem, start_date, status, end_date, feedback) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `order` (id, client, master, manager, device, comment, problem, start_date, status, end_date, feedback) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.setInt(2, entity.getClient());
-            preparedStatement.setInt(3, entity.getMaster());
-            preparedStatement.setInt(4, entity.getManager());
+            ;
+            if (entity.getMaster()==0) {
+                preparedStatement.setNull(3, java.sql.Types.INTEGER);
+            } else {
+                preparedStatement.setInt(3, entity.getMaster());
+            }
+            if (entity.getManager()==0) {
+                preparedStatement.setNull(4, java.sql.Types.INTEGER);
+            } else {
+                preparedStatement.setInt(4, entity.getManager());
+            }
             preparedStatement.setInt(5, entity.getDevice());
-            preparedStatement.setInt(6, entity.getProblem());
-            preparedStatement.setDate(7, entity.getStart_date());
-            preparedStatement.setString(8, entity.getStatus().getStatusToString());
-            preparedStatement.setDate(9, entity.getEnd_date());
-            preparedStatement.setInt(10, entity.getFeedback());
+            preparedStatement.setString(6, entity.getComment());
+            if (entity.getProblem()==0) {
+                preparedStatement.setNull(7, java.sql.Types.INTEGER);
+            } else {
+                preparedStatement.setInt(7, entity.getProblem());
+            }
+            preparedStatement.setDate(8, entity.getStart_date());
+            preparedStatement.setString(9, entity.getStatus().getStatusToString());
+            if (entity.getEnd_date()==null) {
+                preparedStatement.setNull(10, Types.DATE);
+            } else {
+                preparedStatement.setDate(10, entity.getEnd_date());
+            }
+            if (entity.getFeedback()==0) {
+                preparedStatement.setNull(11, java.sql.Types.INTEGER);
+            } else {
+                preparedStatement.setInt(11, entity.getFeedback());
+            }
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -391,7 +444,7 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
     public List<Order> getAll() {
         List<Order> orderList = new ArrayList<>();
         Connection connection = getConnection();
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order`";
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order`";
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -404,6 +457,7 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setMaster(resultSet.getInt("master"));
                 order.setManager(resultSet.getInt("manager"));
                 order.setDevice(resultSet.getInt("device"));
+                order.setComment(resultSet.getString("comment"));
                 order.setProblem(resultSet.getInt("problem"));
                 order.setStart_date(resultSet.getDate("start_date"));
                 order.setStatus(resultSet.getString("status"));
@@ -434,7 +488,7 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
 
     @Override
     public Order getEntityByKey(Integer id) {
-        String sql = "SELECT id, client, manager, master, device, problem, start_date, status, end_date, feedback FROM `order` WHERE id = ?";
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE id = ?";
         Connection connection = getConnection();
         Order order = new Order();
         PreparedStatement preparedStatement =null;
@@ -448,6 +502,7 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
             order.setMaster(resultSet.getInt("master"));
             order.setManager(resultSet.getInt("manager"));
             order.setDevice(resultSet.getInt("device"));
+            order.setComment(resultSet.getString("comment"));
             order.setProblem(resultSet.getInt("problem"));
             order.setStart_date(resultSet.getDate("start_date"));
             order.setStatus(resultSet.getString("status"));
@@ -476,7 +531,7 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
 
     @Override
     public void update(Order entity) {
-        String sql = "UPDATE `order` SET id=?, client=?, manager=?, master=?, device=?, problem=?, start_date=?, status=?, end_date=?, feedback=? WHERE id=?";
+        String sql = "UPDATE `order` SET id=?, client=?, manager=?, master=?, device=?, comment=?, problem=?, start_date=?, status=?, end_date=?, feedback=? WHERE id=?";
         Connection connection =getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -486,11 +541,16 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
             preparedStatement.setInt(3, entity.getManager());
             preparedStatement.setInt(4, entity.getMaster());
             preparedStatement.setInt(5, entity.getDevice());
-            preparedStatement.setInt(6, entity.getProblem());
-            preparedStatement.setDate(7, entity.getStart_date());
-            preparedStatement.setString(8, entity.getStatus().getStatusToString());
-            preparedStatement.setDate(9, entity.getEnd_date());
-            preparedStatement.setInt(10, entity.getFeedback());
+            preparedStatement.setString(6, entity.getComment());
+            preparedStatement.setInt(7, entity.getProblem());
+            preparedStatement.setDate(8, entity.getStart_date());
+            preparedStatement.setString(9, entity.getStatus().getStatusToString());
+            preparedStatement.setDate(10, entity.getEnd_date());
+            if(entity.getFeedback()==0){
+                preparedStatement.setNull(11, Types.INTEGER);
+            }else{
+            preparedStatement.setInt(11, entity.getFeedback());}
+            preparedStatement.setInt(12, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -2,9 +2,11 @@ package dao;
 
 import model.Device;
 
+import java.util.List;
+
 interface DAODevice extends DAO<Device, Integer> {
-    public Device getDeviceByBrand(String brand);
-    public Device getDeviceByModel(String model);
+    public List<Device> getDeviceByBrand(String brand);
+    public List<Device> getDeviceByModel(String model);
     public Device getDeviceByIMEI(String imei);
-    public Device getDeviceByClient(Integer client);
+    public List<Device> getDeviceByClient(Integer client);
 }

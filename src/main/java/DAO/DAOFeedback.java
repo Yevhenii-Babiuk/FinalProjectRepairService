@@ -2,6 +2,8 @@ package dao;
 
 import model.Feedback;
 
+import java.util.List;
+
 public interface DAOFeedback extends DAO <Feedback, Integer> {
-    public Feedback getFeedbackByRate(Integer rate);
+    public List<Feedback> getFeedbackByRate(Integer rate);
 }
