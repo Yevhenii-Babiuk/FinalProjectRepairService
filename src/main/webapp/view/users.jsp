@@ -3,9 +3,12 @@
 <%@ page import="model.User" %>
 <%@ page import="dao.UserDAOImplement" %>
 <%@ page import="dao.EmployeeDAOImplement" %>
+<%@ page import="model.Employee" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%Role role = (Role) request.getSession().getAttribute("role");%>
+<%EmployeeDAOImplement employeeDao = new EmployeeDAOImplement();%>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="text"/>
@@ -13,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adaptive</title>
+    <title><fmt:message key="title"/></title>
     <style>
         <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
         <%@include file='/view/css/normalize.css'%>
@@ -33,16 +36,17 @@
     <div class="container">
         <input type="checkbox" id="menu">
         <div class="nav_wrap">
-            <a class="nav_left nav_item" href="<c:url value='/' />">Repair service</a>
+            <a class="nav_left nav_item" href="<c:url value='/' />"><fmt:message key="title"/></a>
             <label for="menu"><i class="fas fa-bars"></i>
-                Menu
+                <fmt:message key="menu"/>
             </label>
             <ul class="nav_right">
-                <li><a href="<c:url value='/user/login' />" class="nav_item">Authorization</a></li>
-                <li><a href="<c:url value='/user/account' />" class="nav_item">user`s office</a></li>
-                <li><a href="<c:url value='/registration' />" class="nav_item">Registration</a></li>
-                <li><a href="contact.jsp" class="nav_item">Contact</a></li>
-                <li><a href="price.jsp" class="nav_item">Price</a></li>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/employee_add_order'/>" class="nav_item"><fmt:message key="add_order"/></a></li>
+                <li><a href="<c:url value='/account/users'/>" class="nav_item"><fmt:message key="users"/></a></li>
+                <li><a href="<c:url value='/account/add_user'/>" class="nav_item"><fmt:message key="add_user"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
             </ul>
         </div>
     </div>
@@ -55,32 +59,32 @@
     <div class="container grid-container">
         <div id="form" class="item1">
             <form name="order" class="order_form" onsubmit="event.preventDefault();onFormSubmit();">
-                <input type="text" required placeholder="Name" name="name" id="name">
-                <input type="text" required placeholder="Surname" name="surname" id="surname">
-                <input type="text" required placeholder="Phone" pattern="+[0-9]{11,12}" name="phone" id="phone">
-                <input type="text" required placeholder="Address" name="address" id="address">
-                <input type="text" readonly required placeholder="Login" name="login" id="login">
+                <input type="text" required placeholder="<fmt:message key="name"/>" name="name" id="name">
+                <input type="text" required placeholder="<fmt:message key="surname"/>" name="surname" id="surname">
+                <input type="text" required placeholder="<fmt:message key="phone"/>" pattern="+[0-9]{11,12}" name="phone" id="phone">
+                <input type="text" required placeholder="<fmt:message key="address"/>" name="address" id="address">
+                <input type="text" readonly required placeholder="<fmt:message key="login"/>" name="login" id="login">
                 <select name="role" required id="role">
-                    <option value="client">Client</option>
-                    <option value="master">Master</option>
-                    <option value="manager">Manager</option>
-                    <option value="admin">Admin</option>
+                    <option value="client"><fmt:message key="client"/></option>
+                    <option value="master"><fmt:message key="master"/></option>
+                    <option value="manager"><fmt:message key="manager"/></option>
+                    <option value="admin"><fmt:message key="admin"/></option>
                 </select>
-                <input name="submit" id="button" class="btn_send" type="submit" value="Save">
+                <input name="submit" id="button" class="btn_send" type="submit" value="<fmt:message key="save"/>">
             </form>
         </div>
         <div id="table" class="item2">
             <table class="list" id="employeeList">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Login</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Role</th>
-                    <th>Start Date</th>
+                    <th>UserId</th>
+                    <th><fmt:message key="name"/></th>
+                    <th><fmt:message key="surname"/></th>
+                    <th><fmt:message key="login"/></th>
+                    <th><fmt:message key="address"/></th>
+                    <th><fmt:message key="phone"/></th>
+                    <th><fmt:message key="role"/></th>
+                    <th><fmt:message key="start_date"/></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -104,12 +108,12 @@
                     </td>
                     <td><%
                         if (user.getRole() != Role.CLIENT) {
-                            new EmployeeDAOImplement().getEntityByKey(user.getId()).getStartDate();
-                        }
-                    %>
+                            Employee employee = employeeDao.getEntityByKey(user.getId());%>
+                            <%=employee.getStartDate()%>
+                        <%}%>
                     </td>
                     <td>
-                        <button onclick="onEdit(this)">Edit</button>
+                        <button onclick="onEdit(this)"><fmt:message key="edit"/></button>
                     </td>
                 </tr>
                 <%}%>
@@ -120,7 +124,9 @@
 
 <div class="copyright">
     <div class="container">
-        <p>Copyright © Your Website 2019</p>
+        <a href="?locale=en">en</a>
+        <a href="?locale=ru">ru</a>
+        <a href="?locale=ua">ua</a>
     </div>
 </div>
 </body>

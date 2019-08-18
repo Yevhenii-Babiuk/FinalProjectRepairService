@@ -1,5 +1,7 @@
 package filter;
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -19,9 +21,17 @@ public class LogFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
+        String user = null;
+        try {
+            user = req.getSession().getAttribute("login").toString();
+        }
+        catch (NullPointerException e){
+            user=null;
+        }
+        final Logger LOG = Logger.getLogger("User action");
         String servletPath = req.getServletPath();
-        System.out.println("#INFO " + new Date() + " - ServletPath :" + servletPath //
-                + ", URL = " + req.getRequestURL());
+        LOG.info("User: "+user+" ServletPath :"+servletPath+"URL: "+ req.getRequestURL());
+
         filterChain.doFilter(request, response);
     }
 

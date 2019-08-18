@@ -24,20 +24,20 @@
     <div class="container">
         <input type="checkbox" id="menu">
         <div class="nav_wrap">
-            <a class="nav_left nav_item" href="<c:url value='/' />">Repair service</a>
+            <a class="nav_left nav_item" href="<c:url value='/' />"><fmt:message key="title"/></a>
             <label for="menu"><i class="fas fa-bars"></i>
-                Menu
+                <fmt:message key="menu"/>
             </label>
-                <ul class="nav_right">
-                    <li><a href="<c:url value='/account/login' />" class="nav_item">Authorization</a></li>
-                    <li><a href="<c:url value='/account/office' />" class="nav_item">user`s office</a></li>
-                    <li><a href="<c:url value='/registration' />" class="nav_item">Registration</a></li>
-                    <li><a href="<c:url value='/contact' />" class="nav_item">Contact</a></li>
-                    <li><a href="<c:url value='/price' />" class="nav_item">Price</a></li>
-                </ul>
-            </div>
+            <ul class="nav_right">
+                <li><a href="<c:url value='/account/login' />" class="nav_item"><fmt:message key="authorization"/></a></li>
+                <li><a href="<c:url value='/account/office' />" class="nav_item"><fmt:message key="office"/></a></li>
+                <li><a href="<c:url value='/registration' />" class="nav_item"><fmt:message key="registration"/></a></li>
+                <li><a href="<c:url value='/contact' />" class="nav_item"><fmt:message key="contact"/></a></li>
+                <li><a href="<c:url value='/price' />" class="nav_item"><fmt:message key="price"/></a></li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
     <header class="promo">
         <div class="container">
             <h1 class="header_title">Наші клієнти — наші партнери</h1>

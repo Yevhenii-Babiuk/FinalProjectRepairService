@@ -6,9 +6,9 @@
 <fmt:setBundle basename="text"/>
 <html lang="param.locale">
 <head>
-    <title>Title</title>
+    <title><fmt:message key="title"/></title>
 </head>
 <body>
-User already exist
+<fmt:message key="exist"/>
 </body>
 </html>

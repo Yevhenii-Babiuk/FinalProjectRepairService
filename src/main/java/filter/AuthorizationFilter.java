@@ -52,6 +52,11 @@ public class AuthorizationFilter implements Filter {
                 req.getSession().setAttribute("id", id);
                 req.getSession().setAttribute("login", login);
                 req.getSession().setAttribute("role", role);
+                req.getSession().setAttribute("name", user.getName());
+                req.getSession().setAttribute("surname", user.getSurname());
+                req.getSession().setAttribute("password", user.getPassword());
+                req.getSession().setAttribute("address", user.getAddress());
+                req.getSession().setAttribute("phone", user.getPhone());
                 moveToUsersOffice(req, res, role);
             } else {
                 req.getRequestDispatcher("/account/login").forward(req, res);

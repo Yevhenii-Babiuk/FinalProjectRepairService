@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adaptive</title>
+    <title><fmt:message key="title"/></title>
     <script type="text/javascript">
         function submitForm(form) {
             var obj = {};
@@ -18,7 +18,7 @@
             obj.address = form.address.value;
             obj.login = form.login.value;
             obj.password = form.password.value;
-            obj.role= form.role.value;
+            obj.role= null;
             var jsonObject = JSON.stringify(obj);
 
             var xhr = new XMLHttpRequest();
@@ -46,16 +46,16 @@
     <div class="container">
         <input type="checkbox" id="menu">
         <div class="nav_wrap">
-            <a class="nav_left nav_item" href="<c:url value='/' />">Repair service</a>
+            <a class="nav_left nav_item" href="<c:url value='/' />"><fmt:message key="title"/></a>
             <label for="menu"><i class="fas fa-bars"></i>
-                Menu
+                <fmt:message key="menu"/>
             </label>
             <ul class="nav_right">
-                <li><a href="<c:url value='/account/login' />" class="nav_item">Authorization</a></li>
-                <li><a href="<c:url value='/account/office' />" class="nav_item">user`s office</a></li>
-                <li><a href="<c:url value='/registration' />" class="nav_item">Registration</a></li>
-                <li><a href="<c:url value='/contact' />" class="nav_item">Contact</a></li>
-                <li><a href="<c:url value='/price' />" class="nav_item">Price</a></li>
+                <li><a href="<c:url value='/account/login' />" class="nav_item"><fmt:message key="authorization"/></a></li>
+                <li><a href="<c:url value='/account/office' />" class="nav_item"><fmt:message key="office"/></a></li>
+                <li><a href="<c:url value='/registration' />" class="nav_item"><fmt:message key="registration"/></a></li>
+                <li><a href="<c:url value='/contact' />" class="nav_item"><fmt:message key="contact"/></a></li>
+                <li><a href="<c:url value='/price' />" class="nav_item"><fmt:message key="price"/></a></li>
             </ul>
         </div>
     </div>
@@ -63,25 +63,15 @@
 
 <section class="contact" id="contact">
     <div class="container">
-        <h2 class="h2_title">Contact me</h2>
-
-        <div class="divider_custom">
-            <div class="divider_custom-line line-dark"></div>
-            <div class="divider_custom-content">
-                <i class="fas fa-star"></i>
-            </div>
-            <div class="divider_custom-line line-dark"></div>
-        </div>
 
         <form name="user" class="contact_form" onsubmit="event.preventDefault();submitForm(this);">
-            <input type="text" required placeholder="Name" name="name">
-            <input type="text" required placeholder="Surname" name="surname">
-            <input type="text" required placeholder="Phone" pattern="+[0-9]{11,12}" name="phone">
-            <input type="text" required placeholder="Address" name="address">
-            <input type="email" required placeholder="Login" name="login">
-            <input type="password" required placeholder="Password" name="password">
-            <input type="hidden" required name="role" value="client">
-            <input name="submit" id="button" class="btn_send" type="submit" value="Registration">
+            <input type="text" required placeholder="<fmt:message key="name"/>" name="name">
+            <input type="text" required placeholder="<fmt:message key="surname"/>" name="surname">
+            <input type="text" required placeholder="<fmt:message key="phone"/>" pattern="+[0-9]{11,12}" name="phone">
+            <input type="text" required placeholder="<fmt:message key="address"/>" name="address">
+            <input type="email" required placeholder="<fmt:message key="login"/>" name="login">
+            <input type="password" required placeholder="<fmt:message key="password"/>" name="password">
+            <input name="submit" id="button" class="btn_send" type="submit" value="<fmt:message key="registration"/>">
         </form>
     </div>
 </section>
@@ -89,7 +79,9 @@
 
 <div class="copyright">
     <div class="container">
-        <p>Copyright © Your Website 2019</p>
+        <a href="?locale=en">en</a>
+        <a href="?locale=ru">ru</a>
+        <a href="?locale=ua">ua</a>
     </div>
 </div>
 </body>

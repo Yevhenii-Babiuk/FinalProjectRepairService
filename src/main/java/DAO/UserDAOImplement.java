@@ -2,6 +2,7 @@ package dao;
 
 import model.Role;
 import model.User;
+import org.apache.log4j.Logger;
 import util.MySQLConnector;
 
 import java.sql.*;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImplement extends MySQLConnector implements DAOUser {
-
+    private static final Logger LOG = Logger.getLogger(UserDAOImplement.class);
     @Override
     public List<User> getAll() {
         List<User> userList = new ArrayList<>();
@@ -76,8 +77,9 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
             preparedStatement.setString(7, entity.getPassword());
             preparedStatement.setString(8, entity.getRole().getRoleToString());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -112,8 +114,9 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
             preparedStatement.setString(7, entity.getPassword());
             preparedStatement.setString(8, entity.getRole().getRoleToString());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -141,8 +144,9 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -276,8 +280,9 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
                 user.setRole(resultSet.getString("role"));
                 userList.add(user);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -317,6 +322,7 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
             user.setLogin(resultSet.getString("login"));
             user.setPassword(resultSet.getString("password"));
             user.setRole(resultSet.getString("role"));
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
             try {
                 if (!resultSet.next()) {

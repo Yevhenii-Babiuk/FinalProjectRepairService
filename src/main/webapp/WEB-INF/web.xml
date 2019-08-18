@@ -156,6 +156,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>AddFeedbackServlet</servlet-name>
+        <servlet-class>servlet.AddFeedbackServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddFeedbackServlet</servlet-name>
+        <url-pattern>/add_feedback</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Contact</servlet-name>
         <jsp-file>/view/contact.jsp</jsp-file>
     </servlet>
@@ -174,6 +184,7 @@
         <servlet-name>Price</servlet-name>
         <url-pattern>/price</url-pattern>
     </servlet-mapping>
+
 
     <filter>
         <filter-name>LogFilter</filter-name>
@@ -208,14 +219,6 @@
     <filter>
         <filter-name>LocalizationFilter</filter-name>
         <filter-class>filter.LocalizationFilter</filter-class>
-<!--        <init-param>
-            <param-name>bundle</param-name>
-            <param-value>text</param-value>
-        </init-param>
-        <init-param>
-            <param-name>locale</param-name>
-            <param-value>ua</param-value>
-        </init-param>-->
     </filter>
 
     <filter-mapping>

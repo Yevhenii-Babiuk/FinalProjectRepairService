@@ -24,16 +24,16 @@
     <div class="container">
         <input type="checkbox" id="menu">
         <div class="nav_wrap">
-            <a class="nav_left nav_item" href="<c:url value='/' />">Repair service</a>
+            <a class="nav_left nav_item" href="<c:url value='/' />"><fmt:message key="title"/></a>
             <label for="menu"><i class="fas fa-bars"></i>
-                Menu
+                <fmt:message key="menu"/>
             </label>
             <ul class="nav_right">
-                <li><a href="<c:url value='/account/login' />" class="nav_item">Authorization</a></li>
-                <li><a href="<c:url value='/account/office' />" class="nav_item">user`s office</a></li>
-                <li><a href="<c:url value='/registration' />" class="nav_item">Registration</a></li>
-                <li><a href="<c:url value='/contact' />" class="nav_item">Contact</a></li>
-                <li><a href="<c:url value='/price' />" class="nav_item">Price</a></li>
+                <li><a href="<c:url value='/account/login' />" class="nav_item"><fmt:message key="authorization"/></a></li>
+                <li><a href="<c:url value='/account/office' />" class="nav_item"><fmt:message key="office"/></a></li>
+                <li><a href="<c:url value='/registration' />" class="nav_item"><fmt:message key="registration"/></a></li>
+                <li><a href="<c:url value='/contact' />" class="nav_item"><fmt:message key="contact"/></a></li>
+                <li><a href="<c:url value='/price' />" class="nav_item"><fmt:message key="price"/></a></li>
             </ul>
         </div>
     </div>
@@ -41,20 +41,10 @@
 
 <section class="contact" id="contact">
     <div class="container">
-        <h2 class="h2_title">Login page</h2>
-
-        <div class="divider_custom">
-            <div class="divider_custom-line line-dark"></div>
-            <div class="divider_custom-content">
-                <i class="fas fa-star"></i>
-            </div>
-            <div class="divider_custom-line line-dark"></div>
-        </div>
-
         <form method="post" action="" class="contact_form">
-            <input type="text" required placeholder="Login" name="login">
-            <input type="password" required placeholder="Password" name="password">
-            <button class="btn_send" type="submit">Enter</button>
+            <input type="text" required placeholder="<fmt:message key="login"/>" name="login">
+            <input type="password" required placeholder="<fmt:message key="password"/>" name="password">
+            <button class="btn_send" type="submit"><fmt:message key="authorization"/></button>
         </form>
     </div>
 </section>
@@ -62,7 +52,9 @@
 
 <div class="copyright">
     <div class="container">
-        <p>Copyright © Your Website 2019</p>
+        <a href="?locale=en">en</a>
+        <a href="?locale=ru">ru</a>
+        <a href="?locale=ua">ua</a>
     </div>
 </div>
 </body>

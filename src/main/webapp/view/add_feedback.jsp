@@ -1,6 +1,13 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Order" %>
+<%@ page import="dao.OrderDAOImplement" %>
+<%@ page import="model.Role" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%List<Order> orders = new OrderDAOImplement().getOrderByClient((Integer) request.getSession().getAttribute("id"));%>
+<%Role role = (Role) request.getSession().getAttribute("role");%>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="text"/>
@@ -8,19 +15,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adaptive</title>
+    <title><fmt:message key="title"/></title>
     <script type="text/javascript">
         function submitForm(form) {
             var obj = {};
-            obj.brand = form.brand.value;
-            obj.model = form.model.value;
-            obj.imei = form.imei.value;
-            obj.comment = form.comment.value;
-            obj.clientId = form.clientId.value;
+            obj.orderId = form.orderId.value;
+            obj.text = form.feedback.value;
+            obj.rate = form.rate.value;
             var jsonObject = JSON.stringify(obj);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', "/orders", true);
+            xhr.open('POST', "/add_feedback", true);
             xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
             xhr.send(jsonObject);
         }
@@ -41,16 +46,48 @@
     <div class="container">
         <input type="checkbox" id="menu">
         <div class="nav_wrap">
-            <a class="nav_left nav_item" href="<c:url value='/' />">Repair service</a>
+            <a class="nav_left nav_item" href="<c:url value='/' />"><fmt:message key="title"/></a>
             <label for="menu"><i class="fas fa-bars"></i>
-                Menu
+                <fmt:message key="menu"/>
             </label>
             <ul class="nav_right">
-                <li><a href="<c:url value='/account/orders'/>" class="nav_item">Orders</a></li>
-                <li><a href="<c:url value='/account/add_order'/>" class="nav_item">Add orders</a></li>
-                <li><a href="<c:url value='/account/add_feedback'/>" class="nav_item">Add feedback</a></li>
-                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item">Edit profile</a></li>
-                <li><a href="<c:url value='/logout'/>" class="nav_item">Log out</a></li>
+                <%if (role == Role.CLIENT) {%>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/add_order'/>" class="nav_item"><fmt:message key="add_order"/></a>
+                </li>
+                <li><a href="<c:url value='/account/add_feedback'/>" class="nav_item"><fmt:message
+                        key="add_feedback"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message
+                        key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/contact' />" class="nav_item"><fmt:message key="contact"/></a></li>
+                <li><a href="<c:url value='/price' />" class="nav_item"><fmt:message key="price"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
+                <%}%>
+                <%if (role == Role.MASTER) {%>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message
+                        key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
+                <%}%>
+                <%if (role == Role.MANAGER) {%>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/employee_add_order'/>" class="nav_item"><fmt:message
+                        key="add_order"/></a></li>
+                <li><a href="<c:url value='/account/add_user'/>" class="nav_item"><fmt:message key="add_user"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message
+                        key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
+                <%}%>
+                <%if (role == Role.ADMIN) {%>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/employee_add_order'/>" class="nav_item"><fmt:message
+                        key="add_order"/></a></li>
+                <li><a href="<c:url value='/account/users'/>" class="nav_item"><fmt:message key="users"/></a></li>
+                <li><a href="<c:url value='/account/add_user'/>" class="nav_item"><fmt:message key="add_user"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message
+                        key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
+                <%}%>
             </ul>
         </div>
     </div>
@@ -58,31 +95,27 @@
 
 <section class="contact" id="contact">
     <div class="container">
-        <h2 class="h2_title">Contact me</h2>
-
-        <div class="divider_custom">
-            <div class="divider_custom-line line-dark"></div>
-            <div class="divider_custom-content">
-                <i class="fas fa-star"></i>
-            </div>
-            <div class="divider_custom-line line-dark"></div>
-        </div>
 
         <form name="user" class="contact_form" onsubmit="event.preventDefault();submitForm(this);">
-            <input type="text" required placeholder="Brand" name="brand">
-            <input type="text" required placeholder="Model" name="model">
-            <input type="text" required placeholder="IMEI" name="imei">
-            <input type="text" required placeholder="Comment" name="comment">
-            <input type="hidden" name="clientId" value="${sessionScope.id}" >
-            <input name="submit" id="button" class="btn_send" type="submit" value="Send order">
+            <select required name="orderId">
+                <%for (int i = 0; i < orders.size(); i++) {%>
+                <%Order order = orders.get(i);%>
+                <option value="<%=order.getId()%>"><%=order.getId()%>
+                </option>
+                <%}%>
+            </select>
+            <input name="rate" type="number" required max="5" min="0" placeholder="<fmt:message key="rate"/>">
+            <textarea required placeholder="<fmt:message key="feedback"/>" name="feedback"></textarea>
+            <input name="submit" id="button" class="btn_send" type="submit" value="<fmt:message key="send"/>">
         </form>
     </div>
 </section>
 
-
 <div class="copyright">
     <div class="container">
-        <p>Copyright © Your Website 2019</p>
+        <a href="?locale=en">en</a>
+        <a href="?locale=ru">ru</a>
+        <a href="?locale=ua">ua</a>
     </div>
 </div>
 </body>

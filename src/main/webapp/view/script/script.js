@@ -1,5 +1,6 @@
 var selectedRow = null;
 function onFormSubmit() {
+    elem.disabled=false
     var formData = readFormData();
     updateRecord(formData);
     submitForm(formData);

@@ -7,6 +7,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%Role role = (Role) request.getSession().getAttribute("role");%>
 
 
 <fmt:setLocale value="${sessionScope.locale}"/>
@@ -15,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adaptive</title>
+    <title><fmt:message key="title"/></title>
     <script type="text/javascript">
         function submitForm(form) {
             var obj = {};
@@ -53,17 +54,48 @@
     <div class="container">
         <input type="checkbox" id="menu">
         <div class="nav_wrap">
-            <a class="nav_left nav_item" href="<c:url value='/' />">Repair service</a>
+            <a class="nav_left nav_item" href="<c:url value='/' />"><fmt:message key="title"/></a>
             <label for="menu"><i class="fas fa-bars"></i>
-                Menu
+                <fmt:message key="menu"/>
             </label>
             <ul class="nav_right">
-                <li><a href="<c:url value='/account/orders'/>" class="nav_item">Orders</a></li>
-                <li><a href="<c:url value='/account/add_order'/>" class="nav_item">Add orders</a></li>
-                <li><a href="<c:url value='/account/users'/>" class="nav_item">Users</a></li>
-                <li><a href="<c:url value='/account/employee_add_user'/>" class="nav_item">Add user</a></li>
-                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item">Edit profile</a></li>
-                <li><a href="<c:url value='/logout'/>" class="nav_item">Log out</a></li>
+                <%if (role == Role.CLIENT) {%>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/add_order'/>" class="nav_item"><fmt:message key="add_order"/></a>
+                </li>
+                <li><a href="<c:url value='/account/add_feedback'/>" class="nav_item"><fmt:message
+                        key="add_feedback"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message
+                        key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/contact' />" class="nav_item"><fmt:message key="contact"/></a></li>
+                <li><a href="<c:url value='/price' />" class="nav_item"><fmt:message key="price"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
+                <%}%>
+                <%if (role == Role.MASTER) {%>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message
+                        key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
+                <%}%>
+                <%if (role == Role.MANAGER) {%>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/employee_add_order'/>" class="nav_item"><fmt:message
+                        key="add_order"/></a></li>
+                <li><a href="<c:url value='/account/add_user'/>" class="nav_item"><fmt:message key="add_user"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message
+                        key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
+                <%}%>
+                <%if (role == Role.ADMIN) {%>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/employee_add_order'/>" class="nav_item"><fmt:message
+                        key="add_order"/></a></li>
+                <li><a href="<c:url value='/account/users'/>" class="nav_item"><fmt:message key="users"/></a></li>
+                <li><a href="<c:url value='/account/add_user'/>" class="nav_item"><fmt:message key="add_user"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message
+                        key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
+                <%}%>
             </ul>
         </div>
     </div>
@@ -71,21 +103,12 @@
 
 <section class="contact" id="contact">
     <div class="container">
-        <h2 class="h2_title">Contact me</h2>
-
-        <div class="divider_custom">
-            <div class="divider_custom-line line-dark"></div>
-            <div class="divider_custom-content">
-                <i class="fas fa-star"></i>
-            </div>
-            <div class="divider_custom-line line-dark"></div>
-        </div>
         <%UserDAOImplement userDao = new UserDAOImplement();%>
         <form name="user" class="contact_form" onsubmit="event.preventDefault();submitForm(this);">
-            <input type="text" required placeholder="Brand" name="brand">
-            <input type="text" required placeholder="Model" name="model">
+            <input type="text" required placeholder="<fmt:message key="brand"/>" name="brand">
+            <input type="text" required placeholder="<fmt:message key="model"/>" name="model">
             <input type="text" required placeholder="IMEI" name="imei">
-            <input type="text" required placeholder="Comment" name="comment">
+            <input type="text" required placeholder="<fmt:message key="comment"/>" name="comment">
             <select name="solving" required id="solving">
                 <%ProblemDAOImplement problemDao = new ProblemDAOImplement();%>
                 <%List<Problem> problemList = problemDao.getAll();%>
@@ -94,11 +117,11 @@
                 </option>
                 <%}%>
             </select>
-            <input type="text" required placeholder="User Login" name="clientLogin" id="clientLogin">
+            <input type="text" required placeholder="<fmt:message key="login"/>" name="clientLogin" id="clientLogin">
             <select name="status" required id="status">
-                <option value="created">CREATED</option>
-                <option value="accepted">ACCEPTED</option>
-                <option value="done">DONE</option>
+                <option value="created"><fmt:message key="created"/></option>
+                <option value="accepted"><fmt:message key="accepted"/></option>
+                <option value="done"><fmt:message key="done"/></option>
             </select>
             <select name="masterSurname" required id="masterSurname">
                 <%List<User> masterList = userDao.getEntityByRole(Role.MASTER);%>
@@ -114,8 +137,8 @@
                 </option>
                 <%}%>
             </select>
-            <input type="date" placeholder="End date" name="endDate">
-            <input name="submit" id="button" class="btn_send" type="submit" value="Send order">
+            <input type="date" placeholder="<fmt:message key="end_date"/>" name="endDate">
+            <input name="submit" id="button" class="btn_send" type="submit" value="<fmt:message key="send"/>">
         </form>
     </div>
 </section>
@@ -123,7 +146,9 @@
 
 <div class="copyright">
     <div class="container">
-        <p>Copyright © Your Website 2019</p>
+        <a href="?locale=en">en</a>
+        <a href="?locale=ru">ru</a>
+        <a href="?locale=ua">ua</a>
     </div>
 </div>
 </body>

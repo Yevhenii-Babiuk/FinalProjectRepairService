@@ -1,6 +1,7 @@
 package dao;
 
 import model.Device;
+import org.apache.log4j.Logger;
 import util.MySQLConnector;
 
 import java.sql.*;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
-
+    private static final Logger LOG = Logger.getLogger(DeviceDAOImplement.class);
     @Override
     public List<Device> getAll() {
         Connection connection = getConnection();
@@ -28,8 +29,9 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
                 device.setImei(resultSet.getString("imei"));
                 deviceList.add(device);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (statement != null) {
                 try {
@@ -62,8 +64,9 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
             preparedStatement.setString(4, entity.getModel());
             preparedStatement.setString(5, entity.getImei());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -96,8 +99,9 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
             preparedStatement.setString(5, entity.getImei());
             preparedStatement.setInt(6, entity.getId());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -125,8 +129,9 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
             preparedStatement =connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -161,8 +166,9 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
             device.setBrand(resultSet.getString("brand"));
             device.setModel(resultSet.getString("model"));
             device.setImei(resultSet.getString("imei"));
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -201,8 +207,9 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
                 device.setImei(resultSet.getString("imei"));
                 deviceList.add(device);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -242,8 +249,9 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
                 device.setImei(resultSet.getString("imei"));
                 deviceList.add(device);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -280,6 +288,7 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
             device.setBrand(resultSet.getString("brand"));
             device.setModel(resultSet.getString("model"));
             device.setImei(resultSet.getString("imei"));
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
             try {
                 if(!resultSet.next()){
@@ -326,8 +335,9 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
                 device.setImei(resultSet.getString("imei"));
                 deviceList.add(device);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {

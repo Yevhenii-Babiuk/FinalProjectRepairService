@@ -1,6 +1,7 @@
 package dao;
 
 import model.Feedback;
+import org.apache.log4j.Logger;
 import util.MySQLConnector;
 
 import java.sql.*;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback {
 
-
+    private static final Logger LOG = Logger.getLogger(FeedbackDAOImplement.class);
     @Override
     public void add(Feedback entity) {
         Connection connection = getConnection();
@@ -21,8 +22,9 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
             preparedStatement.setInt(2, entity.getRate());
             preparedStatement.setString(3, entity.getText());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -57,8 +59,9 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
                 feedback.setText(resultSet.getString("text"));
                 feedbackList.add(feedback);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (statement != null) {
                 try {
@@ -92,8 +95,9 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
             feedback.setId(resultSet.getInt("id"));
             feedback.setRate(resultSet.getInt("rate"));
             feedback.setText(resultSet.getString("text"));
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -124,8 +128,9 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
             preparedStatement.setInt(2, entity.getRate());
             preparedStatement.setString(3, entity.getText());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -153,8 +158,9 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -190,8 +196,9 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
                 feedback.setText(resultSet.getString("text"));
                 feedbackList.add(feedback);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -209,5 +216,41 @@ public class FeedbackDAOImplement extends MySQLConnector implements DAOFeedback 
             }
         }
         return feedbackList;
+    }
+
+    @Override
+    public Feedback getFeedbackByText(String text) {
+        String sql = "SELECT id, rate, text FROM `feedback` WHERE text = ?";
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
+        Feedback feedback = new Feedback();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, text);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+                feedback.setId(resultSet.getInt("id"));
+                feedback.setRate(resultSet.getInt("rate"));
+                feedback.setText(resultSet.getString("text"));
+            LOG.debug("Executed query "+sql);
+        } catch (SQLException e) {
+            LOG.debug("SQLException occurred");
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return feedback;
     }
 }

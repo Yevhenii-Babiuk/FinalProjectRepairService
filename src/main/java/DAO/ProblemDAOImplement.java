@@ -1,6 +1,7 @@
 package dao;
 
 import model.Problem;
+import org.apache.log4j.Logger;
 import util.MySQLConnector;
 
 import java.sql.*;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProblemDAOImplement extends MySQLConnector implements DAOProblem {
-
+    private static final Logger LOG = Logger.getLogger(ProblemDAOImplement.class);
     @Override
     public void add(Problem entity) {
         String sql = "INSERT INTO `problem` (id, problem, price) VALUES (?, ?, ?)";
@@ -20,8 +21,9 @@ public class ProblemDAOImplement extends MySQLConnector implements DAOProblem {
             preparedStatement.setString(2, entity.getProblem());
             preparedStatement.setFloat(3, entity.getPrice());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -57,8 +59,9 @@ public class ProblemDAOImplement extends MySQLConnector implements DAOProblem {
                 problem.setPrice(resultSet.getFloat("price"));
                 problemList.add(problem);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (statement != null) {
                 try {
@@ -92,8 +95,9 @@ public class ProblemDAOImplement extends MySQLConnector implements DAOProblem {
             problem.setId(resultSet.getInt("id"));
             problem.setProblem(resultSet.getString("problem"));
             problem.setPrice(resultSet.getFloat("price"));
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -125,8 +129,9 @@ public class ProblemDAOImplement extends MySQLConnector implements DAOProblem {
             preparedStatement.setFloat(3, entity.getPrice());
             preparedStatement.setInt(4, entity.getId());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -154,8 +159,9 @@ public class ProblemDAOImplement extends MySQLConnector implements DAOProblem {
             preparedStatement =connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -192,8 +198,9 @@ public class ProblemDAOImplement extends MySQLConnector implements DAOProblem {
                 problem.setPrice(resultSet.getFloat("price"));
                 problemList.add(problem);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -227,9 +234,9 @@ public class ProblemDAOImplement extends MySQLConnector implements DAOProblem {
                 problem.setId(resultSet.getInt("id"));
                 problem.setProblem(resultSet.getString("problem"));
                 problem.setPrice(resultSet.getFloat("price"));
-
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {

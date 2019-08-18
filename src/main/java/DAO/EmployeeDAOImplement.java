@@ -1,6 +1,7 @@
 package dao;
 
 import model.Employee;
+import org.apache.log4j.Logger;
 import util.MySQLConnector;
 
 import java.sql.*;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployees {
-
+    private static final Logger LOG = Logger.getLogger(EmployeeDAOImplement.class);
     @Override
     public void add(Employee entity) {
         Connection connection = getConnection();
@@ -20,8 +21,9 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
             preparedStatement.setInt(1, entity.getUserId());
             preparedStatement.setDate(2, entity.getStartDate());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -57,8 +59,9 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
                 employee.setStartDate(resultSet.getDate("start_date"));
                 employeeList.add(employee);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (statement != null) {
                 try {
@@ -91,9 +94,9 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
             resultSet.next();
             employee.setUserId(resultSet.getInt("user_id"));
             employee.setStartDate(resultSet.getDate("start_date"));
-
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -124,8 +127,9 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
             preparedStatement.setInt(1, entity.getUserId());
             preparedStatement.setDate(2, entity.getStartDate());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -190,8 +194,9 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
                 employee.setStartDate(resultSet.getDate("start_date"));
             employeeList.add(employee);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {

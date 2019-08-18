@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface DAOFeedback extends DAO <Feedback, Integer> {
     public List<Feedback> getFeedbackByRate(Integer rate);
+    public Feedback getFeedbackByText(String text);
 }

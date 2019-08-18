@@ -2,6 +2,7 @@ package dao;
 
 import model.Order;
 import model.Status;
+import org.apache.log4j.Logger;
 import util.MySQLConnector;
 
 import java.sql.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
 
+    private static final Logger LOG = Logger.getLogger(OrderDAOImplement.class);
     @Override
     public List<Order> getOrderByClient(Integer client) {
         List<Order> orderList = new ArrayList<>();
@@ -35,8 +37,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -81,8 +84,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -127,8 +131,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -173,8 +178,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -219,8 +225,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -266,8 +273,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -313,8 +321,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -359,8 +368,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -420,8 +430,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 preparedStatement.setInt(11, entity.getFeedback());
             }
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -465,8 +476,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
                 order.setFeedback(resultSet.getInt("feedback"));
                 orderList.add(order);
             }
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (statement != null) {
                 try {
@@ -508,8 +520,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
             order.setStatus(resultSet.getString("status"));
             order.setEnd_date(resultSet.getDate("end_date"));
             order.setFeedback(resultSet.getInt("feedback"));
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -552,8 +565,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
             preparedStatement.setInt(11, entity.getFeedback());}
             preparedStatement.setInt(12, entity.getId());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -581,8 +595,9 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
             preparedStatement =connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
+            LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
                 try {

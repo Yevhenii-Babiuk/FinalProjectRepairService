@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Client page</title>
+    <title><fmt:message key="title"/></title>
     <style>
         <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
         <%@include file='/view/css/normalize.css'%>
@@ -29,16 +29,28 @@
                 Menu
             </label>
             <ul class="nav_right">
-                <li><a href="<c:url value='/account/orders'/>" class="nav_item">Orders</a></li>
-                <li><a href="<c:url value='/account/add_order'/>" class="nav_item">Add orders</a></li>
-                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item">Edit profile</a></li>
-                <li><a href="<c:url value='/contact' />" class="nav_item">Contact</a></li>
-                <li><a href="<c:url value='/price' />" class="nav_item">Price</a></li>
-                <li><a href="<c:url value='/logout'/>" class="nav_item">Log out</a></li>
+                <li><a href="<c:url value='/account/orders'/>" class="nav_item"><fmt:message key="orders"/></a></li>
+                <li><a href="<c:url value='/account/add_order'/>" class="nav_item"><fmt:message key="add_order"/></a></li>
+                <li><a href="<c:url value='/account/add_feedback'/>" class="nav_item"><fmt:message key="add_feedback"/></a></li>
+                <li><a href="<c:url value='/account/edit_profile'/>" class="nav_item"><fmt:message key="edit_profile"/></a></li>
+                <li><a href="<c:url value='/contact' />" class="nav_item"><fmt:message key="contact"/></a></li>
+                <li><a href="<c:url value='/price' />" class="nav_item"><fmt:message key="price"/></a></li>
+                <li><a href="<c:url value='/logout'/>" class="nav_item"><fmt:message key="logout"/></a></li>
             </ul>
         </div>
     </div>
 </nav>
+<section class="portfolio" id="portfolio">
+    <div class="container">
+    </div>
+</section>
 
+<div class="copyright">
+    <div class="container">
+        <a href="?locale=en">en</a>
+        <a href="?locale=ru">ru</a>
+        <a href="?locale=ua">ua</a>
+    </div>
+</div>
 </body>
 </html>
