@@ -7,6 +7,9 @@ import model.Order;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Returns all order with text details
+ */
 public class GetOrderWithDetails {
 
     public List<OrderDTO> getOrder() {

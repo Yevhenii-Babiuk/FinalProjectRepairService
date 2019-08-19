@@ -14,11 +14,11 @@
     <script type="text/javascript">
         function submitForm(form) {
             var obj = {};
-            obj.name = form.name.value;
-            obj.surname = form.surname.value;
-            obj.phone = "+"+form.phone.value;
-            obj.address = form.address.value;
-            obj.login = form.login.value;
+            obj.name = form.name.value.trim();
+            obj.surname = form.surname.value.trim();
+            obj.phone = form.phone.value.trim();
+            obj.address = form.address.value.trim();
+            obj.login = form.login.value.trim();
             obj.password = form.password.value;
             obj.role= form.role.value;
             var jsonObject = JSON.stringify(obj);
@@ -35,7 +35,7 @@
     <style>
         <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
         <%@include file='/view/css/normalize.css'%>
-        <%@include file='/view/css/lab10.css'%>
+        <%@include file='/view/css/repair_service.css'%>
         <%@include file='/view/css/responsive.css'%>
     </style>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,700i&display=swap" rel="stylesheet">
@@ -95,19 +95,9 @@
     </div>
 </nav>
 
-<section class="contact" id="contact">
+<section class="forms" id="contact">
     <div class="container">
-        <h2 class="h2_title">Contact me</h2>
-
-        <div class="divider_custom">
-            <div class="divider_custom-line line-dark"></div>
-            <div class="divider_custom-content">
-                <i class="fas fa-star"></i>
-            </div>
-            <div class="divider_custom-line line-dark"></div>
-        </div>
-
-        <form name="user" class="contact_form" onsubmit="event.preventDefault();submitForm(this);">
+        <form name="user" class="forms_form" onsubmit="event.preventDefault();submitForm(this);">
             <input type="text" required placeholder="<fmt:message key="name"/>" name="name">
             <input type="text" required placeholder="<fmt:message key="surname"/>" name="surname">
             <input type="text" required placeholder="<fmt:message key="phone"/>" pattern="+[0-9]{11,12}" name="phone">

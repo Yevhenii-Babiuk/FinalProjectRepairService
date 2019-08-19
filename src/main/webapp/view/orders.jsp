@@ -23,7 +23,7 @@
     <style>
         <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
         <%@include file='/view/css/normalize.css'%>
-        <%@include file='/view/css/lab10.css'%>
+        <%@include file='/view/css/repair_service.css'%>
         <%@include file='/view/css/responsive.css'%>
     </style>
     <script>
@@ -90,7 +90,7 @@
     <div class="container">
     </div>
 </header>
-<section class="portfolio">
+<section class="main_white">
     <div class="container grid-container">
         <%if (role != Role.CLIENT) {%>
         <%UserDAOImplement userDao = new UserDAOImplement();%>

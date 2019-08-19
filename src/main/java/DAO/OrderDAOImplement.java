@@ -9,9 +9,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of DAO interface for Order
+ */
 public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
 
     private static final Logger LOG = Logger.getLogger(OrderDAOImplement.class);
+
+    /**
+     * @param client parameter for find entity
+     * @return list of entity
+     */
     @Override
     public List<Order> getOrderByClient(Integer client) {
         List<Order> orderList = new ArrayList<>();
@@ -59,6 +67,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * @param master parameter for find entity
+     * @return list of entity
+     */
     @Override
     public List<Order> getOrderByMaster(Integer master) {
         List<Order> orderList = new ArrayList<>();
@@ -106,6 +118,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * @param manager parameter for find entity
+     * @return list of entity
+     */
     @Override
     public List<Order> getOrderByManager(Integer manager) {
         List<Order> orderList = new ArrayList<>();
@@ -153,6 +169,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * @param device parameter for find entity
+     * @return list of entity
+     */
     @Override
     public List<Order> getOrderByDevice(Integer device) {
         List<Order> orderList = new ArrayList<>();
@@ -200,6 +220,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * @param problem parameter for find entity
+     * @return list of entity
+     */
     @Override
     public List<Order> getOrderByProblem(Integer problem) {
         List<Order> orderList = new ArrayList<>();
@@ -247,10 +271,15 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * @param min minimal Date to search when order entered to service
+     * @param max maximum Date to search when order entered to service
+     * @return list of orders
+     */
     @Override
     public List<Order>getOrderByStartDate(Date min, Date max) {
         List<Order> orderList = new ArrayList<>();
-        String sql = "SELECT id, client, manager, master, device, comment problem, start_date, status, end_date, feedback FROM `order` WHERE start_date BETWEEN ? AND ?";
+        String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE start_date BETWEEN ? AND ?";
         Connection connection = getConnection();
         PreparedStatement preparedStatement =null;
         try {
@@ -295,6 +324,11 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * @param min minimal Date to search when order will done
+     * @param max maximum Date to search when order will done
+     * @return list of orders
+     */
     @Override
     public List<Order> getOrderByEndDate(Date min, Date max) {
         List<Order> orderList = new ArrayList<>();
@@ -343,6 +377,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * @param status parameter for find entity
+     * @return list of entity
+     */
     @Override
     public List<Order> getOrderByStatus(Status status) {
         List<Order> orderList = new ArrayList<>();
@@ -390,6 +428,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * Add entity into DB
+     * @param entity get entity to insert it to DB
+     */
     @Override
     public void add(Order entity) {
         String sql = "INSERT INTO `order` (id, client, master, manager, device, comment, problem, start_date, status, end_date, feedback) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -451,6 +493,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         }
     }
 
+    /**
+     * Method for find all order
+     * @return List of order
+     */
     @Override
     public List<Order> getAll() {
         List<Order> orderList = new ArrayList<>();
@@ -498,16 +544,21 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return orderList;
     }
 
+    /**
+     * @param id parameter for find entity
+     * @return list of entity
+     */
     @Override
     public Order getEntityByKey(Integer id) {
         String sql = "SELECT id, client, manager, master, device, comment, problem, start_date, status, end_date, feedback FROM `order` WHERE id = ?";
         Connection connection = getConnection();
         Order order = new Order();
+        ResultSet resultSet = null;
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             order.setId(resultSet.getInt("id"));
             order.setClient(resultSet.getInt("client"));
@@ -522,6 +573,14 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
             order.setFeedback(resultSet.getInt("feedback"));
             LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
+            try {
+                if(!resultSet.next()){
+                    return null;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                LOG.debug("SQLException occurred");
+            }
             LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
@@ -542,6 +601,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         return order;
     }
 
+    /**
+     * Update entity into DB
+     * @param entity get entity to update new values into DB
+     */
     @Override
     public void update(Order entity) {
         String sql = "UPDATE `order` SET id=?, client=?, manager=?, master=?, device=?, comment=?, problem=?, start_date=?, status=?, end_date=?, feedback=? WHERE id=?";
@@ -586,6 +649,10 @@ public class OrderDAOImplement extends MySQLConnector implements DAOOrder {
         }
     }
 
+    /**
+     * Delete entity in DB
+     * @param entity what need to delete
+     */
     @Override
     public void delete(Order entity) {
         Connection connection = getConnection();

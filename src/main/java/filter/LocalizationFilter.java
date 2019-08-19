@@ -6,7 +6,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/*"})
+/**
+ * Filter realizing system of localization
+ */
 public class LocalizationFilter implements Filter {
 
     @Override

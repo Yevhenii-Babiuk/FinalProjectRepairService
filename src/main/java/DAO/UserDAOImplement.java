@@ -8,9 +8,15 @@ import util.MySQLConnector;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Implementation of DAO interface for User
+ */
 public class UserDAOImplement extends MySQLConnector implements DAOUser {
     private static final Logger LOG = Logger.getLogger(UserDAOImplement.class);
+    /**
+     * Method for find all user
+     * @return List of users
+     */
     @Override
     public List<User> getAll() {
         List<User> userList = new ArrayList<>();
@@ -61,6 +67,10 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         return userList;
     }
 
+    /**
+     * Add entity into DB
+     * @param entity get entity to insert it to DB
+     */
     @Override
     public void add(User entity) {
         String sql = "INSERT INTO `user` (id, name, surname, address, phone, login, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -98,6 +108,10 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         }
     }
 
+    /**
+     * Update entity into DB
+     * @param entity get entity to update new values into DB
+     */
     @Override
     public void update(User entity) {
         String sql = "UPDATE `user` SET id=?, name=?, surname=?, address=?, phone=?, login=?, password=?, role=? WHERE id=?";
@@ -113,6 +127,7 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
             preparedStatement.setString(6, entity.getLogin());
             preparedStatement.setString(7, entity.getPassword());
             preparedStatement.setString(8, entity.getRole().getRoleToString());
+            preparedStatement.setInt(9, entity.getId());
             preparedStatement.executeUpdate();
             LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
@@ -135,6 +150,10 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         }
     }
 
+    /**
+     * Delete entity in DB
+     * @param entity what need to delete
+     */
     @Override
     public void delete(User entity) {
         String sql = "DELETE FROM `user` WHERE id=?";
@@ -165,6 +184,11 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         }
     }
 
+    /**
+     * Get entity by parameter
+     * @param id parameter for find entity
+     * @return entity
+     */
     @Override
     public User getEntityByKey(Integer id) {
         String sql = "SELECT id, name, surname, address, phone, login, password, role FROM `user` WHERE id = ?";
@@ -211,6 +235,11 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         return user;
     }
 
+    /**
+     * Get entity by parameter
+     * @param surname parameter for find entity
+     * @return entity
+     */
     @Override
     public User getEntityBySurname(String surname) {
         String sql = "SELECT id, name, surname, address, phone, login, password, role FROM `user` WHERE surname LIKE ?";
@@ -258,6 +287,11 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         return user;
     }
 
+    /**
+     * Get entity by role
+     * @param role parameter for find entity
+     * @return list of entity
+     */
     @Override
     public List<User> getEntityByRole(Role role) {
         List<User> userList = new ArrayList<>();
@@ -302,6 +336,11 @@ public class UserDAOImplement extends MySQLConnector implements DAOUser {
         return userList;
     }
 
+    /**
+     * Get entity by login
+     * @param login parameter for find entity
+     * @return entity
+     */
     @Override
     public User getEntityByLogin(String login) {
         String sql = "SELECT id, name, surname, address, phone, login, password, role FROM `user` WHERE login LIKE ?";

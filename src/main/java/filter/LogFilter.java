@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ * Filter log all move user in application
+ */
 public class LogFilter implements Filter {
 
     public LogFilter() {

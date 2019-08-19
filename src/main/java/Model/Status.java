@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Enumeration of possible status of orders
+ */
 public enum Status {
     CREATED("created"),
     ACCEPTED("accepted"),
@@ -14,4 +17,5 @@ public enum Status {
     public String getStatusToString() {
         return status;
     }
+
 }

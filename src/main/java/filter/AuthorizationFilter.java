@@ -12,6 +12,9 @@ import java.io.IOException;
 
 import static java.util.Objects.nonNull;
 
+/**
+ * Filter realizing authorization in application
+ */
 public class AuthorizationFilter implements Filter {
 
     @Override

@@ -1,7 +1,11 @@
 package model;
 
 import java.sql.Date;
+import java.util.Objects;
 
+/**
+ * Class realizing entity of order
+ */
 public class Order {
     private int id;
     private int client;
@@ -111,4 +115,26 @@ public class Order {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return getId() == order.getId() &&
+                getClient() == order.getClient() &&
+                getManager() == order.getManager() &&
+                getMaster() == order.getMaster() &&
+                getDevice() == order.getDevice() &&
+                getProblem() == order.getProblem() &&
+                getFeedback() == order.getFeedback() &&
+                Objects.equals(getComment(), order.getComment()) &&
+                Objects.equals(getStart_date(), order.getStart_date()) &&
+                getStatus() == order.getStatus() &&
+                Objects.equals(getEnd_date(), order.getEnd_date());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getClient(), getManager(), getMaster(), getDevice(), getProblem(), getComment(), getStart_date(), getStatus(), getEnd_date(), getFeedback());
+    }
 }

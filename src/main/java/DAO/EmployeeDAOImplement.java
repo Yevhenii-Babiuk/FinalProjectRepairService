@@ -7,9 +7,16 @@ import util.MySQLConnector;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Implementation of DAO interface for Employee
+ */
 public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployees {
     private static final Logger LOG = Logger.getLogger(EmployeeDAOImplement.class);
+
+    /**
+     * Add entity into DB
+     * @param entity get entity to insert it to DB
+     */
     @Override
     public void add(Employee entity) {
         Connection connection = getConnection();
@@ -42,7 +49,10 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
         }
     }
 
-
+    /**
+     * Method for find all employees
+     * @return List of employees
+     */
     @Override
     public List<Employee> getAll() {
         Connection connection = getConnection();
@@ -81,22 +91,35 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
         return employeeList;
     }
 
+    /**
+     * Get entity by parameter
+     * @param id parameter for find entity
+     * @return entity
+     */
     @Override
     public Employee getEntityByKey(Integer id) {
         Connection connection = getConnection();
         String sql = "SELECT user_id, start_date FROM `employees` WHERE user_id = ?";
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         Employee employee = new Employee();
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             employee.setUserId(resultSet.getInt("user_id"));
             employee.setStartDate(resultSet.getDate("start_date"));
             LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
-            LOG.debug("SQLException occurred");
+            try {
+                if(!resultSet.next()){
+                    return null;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                LOG.debug("SQLException occurred");
+            }
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -116,7 +139,10 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
         return employee;
     }
 
-
+    /**
+     * Update entity into DB
+     * @param entity get entity to update new values into DB
+     */
     @Override
     public void update(Employee entity) {
         Connection connection = getConnection();
@@ -126,6 +152,7 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, entity.getUserId());
             preparedStatement.setDate(2, entity.getStartDate());
+            preparedStatement.setInt(3, entity.getUserId());
             preparedStatement.executeUpdate();
             LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
@@ -148,6 +175,10 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
         }
     }
 
+    /**
+     * Delete entity in DB
+     * @param entity what need to delete
+     */
     @Override
     public void delete(Employee entity) {
         Connection connection = getConnection();
@@ -177,6 +208,11 @@ public class EmployeeDAOImplement  extends MySQLConnector implements DAOEmployee
         }
     }
 
+    /**
+     * @param dateMin minimal Date for search
+     * @param dateMax maximum Date for search
+     * @return list of employees by start date in service
+     */
     @Override
     public List<Employee> getEmployeeByStartDate(Date dateMin, Date dateMax) {
         String sql = "SELECT user_id, start_date FROM `employees` WHERE start_date BETWEEN ? AND ?";

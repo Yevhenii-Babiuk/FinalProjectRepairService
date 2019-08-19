@@ -3,6 +3,9 @@ package filter;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * Filter configure encoding
+ */
 public class EncodingFilter implements Filter {
     public void destroy() {
         System.out.println("EncFilter init");

@@ -12,7 +12,7 @@
     <style>
     <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
     <%@include file='/view/css/normalize.css'%>
-    <%@include file='/view/css/lab10.css'%>
+    <%@include file='/view/css/repair_service.css'%>
     <%@include file='/view/css/responsive.css'%>
     </style>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,700i&display=swap" rel="stylesheet">
@@ -40,18 +40,10 @@
 </nav>
     <header class="promo">
         <div class="container">
-            <h1 class="header_title">Наші клієнти — наші партнери</h1>
+            <h1 class="header_title"><fmt:message key="main_text"/></h1>
 
-            <p class="header_text">
-                Люди приносять нам не просто техніку, а своїх помічників в роботі та побуті. Ми це розуміємо, тому до замовлень ставимося відповідально. І цінуємо, коли клієнти до нас повертаються. Постійні клієнти – найприємніший комплімент для сервісного центру. Постійні клієнти – це результат партнерських відносин: сумлінно виконуючи свою роботу, ми заробляємо довіру клієнтів, і Ви повертаєтеся до нас знову.
-
-                Ми поряд та готові допомогти
-                Думаючи про своїх клієнтів і співробітників, керівництво мережі сервісних центрів «TotalService» подбало, щоб всі майстерні були легкодоступні. Ніколи ремонт ноутбуків в Києві не був так близько. І ніколи не було так легко нести хлібопічку до сервісного центру.
-
-                Ми цінуємо довіру до нашого сервісного центру, тому ми пропонуємо Якість, даємо Гарантію і працюємо на Результат. Вибір СЦ «TotalService» – хороший вибір!</p>
         </div>
     </header>
-
 
     <div class="copyright">
         <div class="container">

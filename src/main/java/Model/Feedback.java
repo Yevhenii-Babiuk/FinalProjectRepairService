@@ -1,5 +1,10 @@
 package model;
 
+import java.util.Objects;
+
+/**
+ * Class realizing entity of feedback
+ */
 public class Feedback {
     private int id;
     private int rate;
@@ -27,5 +32,20 @@ public class Feedback {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Feedback)) return false;
+        Feedback feedback = (Feedback) o;
+        return getId() == feedback.getId() &&
+                getRate() == feedback.getRate() &&
+                getText().equals(feedback.getText());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getRate(), getText());
     }
 }

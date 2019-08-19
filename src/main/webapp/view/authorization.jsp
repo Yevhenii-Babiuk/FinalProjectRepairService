@@ -12,7 +12,7 @@
     <style>
         <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
         <%@include file='/view/css/normalize.css'%>
-        <%@include file='/view/css/lab10.css'%>
+        <%@include file='/view/css/repair_service.css'%>
         <%@include file='/view/css/responsive.css'%>
     </style>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,700i&display=swap" rel="stylesheet">
@@ -39,12 +39,12 @@
     </div>
 </nav>
 
-<section class="contact" id="contact">
+<section class="forms" id="contact">
     <div class="container">
-        <form method="post" action="" class="contact_form">
+        <form method="post" action="" class="forms_form">
             <input type="text" required placeholder="<fmt:message key="login"/>" name="login">
             <input type="password" required placeholder="<fmt:message key="password"/>" name="password">
-            <button class="btn_send" type="submit"><fmt:message key="authorization"/></button>
+            <input name="submit" id="button" class="btn_send" type="submit" value="<fmt:message key="authorization"/>">
         </form>
     </div>
 </section>

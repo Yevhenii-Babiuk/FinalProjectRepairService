@@ -6,6 +6,9 @@ import model.Feedback;
 import model.Order;
 import org.json.JSONObject;
 
+/**
+ * Realizing adding feedback to exist order
+ */
 public class AddFeedback {
     public void add(String json){
         JSONObject object = new JSONObject(json);

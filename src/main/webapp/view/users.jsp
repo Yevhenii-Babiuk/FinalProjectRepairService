@@ -20,7 +20,7 @@
     <style>
         <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
         <%@include file='/view/css/normalize.css'%>
-        <%@include file='/view/css/lab10.css'%>
+        <%@include file='/view/css/repair_service.css'%>
         <%@include file='/view/css/responsive.css'%>
     </style>
     <script>
@@ -55,7 +55,7 @@
     <div class="container">
     </div>
 </header>
-<section class="portfolio">
+<section class="main_white">
     <div class="container grid-container">
         <div id="form" class="item1">
             <form name="order" class="order_form" onsubmit="event.preventDefault();onFormSubmit();">
@@ -77,7 +77,7 @@
             <table class="list" id="employeeList">
                 <thead>
                 <tr>
-                    <th>UserId</th>
+                    <th><fmt:message key="userId"/></th>
                     <th><fmt:message key="name"/></th>
                     <th><fmt:message key="surname"/></th>
                     <th><fmt:message key="login"/></th>

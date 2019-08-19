@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
 
+
+/**
+ * Util-class for connection with MySQL DB
+ */
 public class MySQLConnector {
     private Connection connection = getConnection();
     private static final String dbFileProperties = "src/main/resources/db.properties";
@@ -52,17 +56,4 @@ public class MySQLConnector {
         return connection;
     }
 
-    public void closeQuietly(Connection conn) {
-        try {
-            conn.close();
-        } catch (Exception e) {
-        }
-    }
-
-    public void rollbackQuietly(Connection conn) {
-        try {
-            conn.rollback();
-        } catch (Exception e) {
-        }
-    }
 }

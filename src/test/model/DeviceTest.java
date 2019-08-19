@@ -1,48 +1,46 @@
 package model;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class DeviceTest {
-
-    @Test
-    public void getId() {
+    private Device device =null;
+    @Before
+    public void setUp() {
+        device = new Device();
     }
 
     @Test
-    public void setId() {
+    public void getAndSetIdTest() {
+        device.setId(1123);
+        assertEquals(1123, device.getId());
     }
 
     @Test
-    public void getClient() {
+    public void getAndSetClientTest() {
+        device.setClient(148);
+        assertEquals(148, device.getClient());
     }
 
     @Test
-    public void setClient() {
+    public void getAndSetBrandTest() {
+        device.setBrand("Xiaomi");
+        assertEquals("Xiaomi", device.getBrand());
     }
 
-    @Test
-    public void getBrand() {
-    }
 
     @Test
-    public void setBrand() {
+    public void getAndSetModelTest() {
+        device.setModel("6S+");
+        assertEquals("6S+", device.getModel());
     }
 
-    @Test
-    public void getModel() {
-    }
 
     @Test
-    public void setModel() {
-    }
-
-    @Test
-    public void getImei() {
-    }
-
-    @Test
-    public void setImei() {
+    public void getAndSetImeiTest() {
+        device.setImei("445115F1548");
+        assertEquals("445115F1548", device.getImei());
     }
 }

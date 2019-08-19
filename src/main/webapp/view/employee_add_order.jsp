@@ -29,7 +29,7 @@
             obj.status = form.status.value;
             obj.masterSurname = form.masterSurname.value;
             obj.managerSurname = form.managerSurname.value;
-            obj.endDate = form.endDate.value;
+            obj.endDate = new Date(form.endDate.value).getTime();
             var jsonObject = JSON.stringify(obj);
 
             var xhr = new XMLHttpRequest();
@@ -41,7 +41,7 @@
     <style>
         <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
         <%@include file='/view/css/normalize.css'%>
-        <%@include file='/view/css/lab10.css'%>
+        <%@include file='/view/css/repair_service.css'%>
         <%@include file='/view/css/responsive.css'%>
     </style>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,700i&display=swap" rel="stylesheet">
@@ -101,10 +101,10 @@
     </div>
 </nav>
 
-<section class="contact" id="contact">
+<section class="forms" id="contact">
     <div class="container">
         <%UserDAOImplement userDao = new UserDAOImplement();%>
-        <form name="user" class="contact_form" onsubmit="event.preventDefault();submitForm(this);">
+        <form name="user" class="forms_form" onsubmit="event.preventDefault();submitForm(this);">
             <input type="text" required placeholder="<fmt:message key="brand"/>" name="brand">
             <input type="text" required placeholder="<fmt:message key="model"/>" name="model">
             <input type="text" required placeholder="IMEI" name="imei">

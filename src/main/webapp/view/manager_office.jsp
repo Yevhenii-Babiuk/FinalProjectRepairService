@@ -12,7 +12,7 @@
     <style>
         <%@include file='/view/font-awesome-4.7.0/css/font-awesome.min.css'%>
         <%@include file='/view/css/normalize.css'%>
-        <%@include file='/view/css/lab10.css'%>
+        <%@include file='/view/css/repair_service.css'%>
         <%@include file='/view/css/responsive.css'%>
     </style>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,700i&display=swap" rel="stylesheet">
@@ -38,6 +38,12 @@
         </div>
     </div>
 </nav>
+
+<header class="main_white" id="portfolio">
+    <div class="container">
+        <h2 class="h2_title"><fmt:message key="manager_welcome"/></h2>
+    </div>
+</header>
 
 <div class="copyright">
     <div class="container">

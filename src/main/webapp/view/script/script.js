@@ -1,6 +1,5 @@
 var selectedRow = null;
 function onFormSubmit() {
-    elem.disabled=false
     var formData = readFormData();
     updateRecord(formData);
     submitForm(formData);
@@ -14,7 +13,7 @@ function readFormData() {
     formData["managerSurname"] = document.getElementById("managerSurname").value.trim();
     formData["solving"] = document.getElementById("solving").value.trim();
     formData["status"] = document.getElementById("status").value;
-    formData["endDate"] = document.getElementById("endDate").value;
+    formData["endDate"] = new Date(document.getElementById("endDate").value).getTime();
     return formData;
 }
 
@@ -34,7 +33,7 @@ function onEdit(td) {
     document.getElementById("managerSurname").value=selectedRow.cells[4].innerHTML;
     document.getElementById("solving").value=selectedRow.cells[7].innerHTML;
     document.getElementById("status").value=selectedRow.cells[10].innerHTML;
-    document.getElementById("endDate").value=selectedRow.cells[11].innerHTML;
+    document.getElementById("endDate").value=(selectedRow.cells[11].innerHTML);
 }
 
 function updateRecord(formData) {
@@ -43,7 +42,7 @@ function updateRecord(formData) {
     selectedRow.cells[4].innerHTML=formData.managerSurname;
     selectedRow.cells[7].innerHTML=formData.solving;
     selectedRow.cells[10].innerHTML=formData.status;
-    selectedRow.cells[11].innerHTML=formData.endDate;
+    selectedRow.cells[11].innerHTML=(new Date(formData.endDate)).toLocaleDateString();
 }
 
 function submitForm(formData) {

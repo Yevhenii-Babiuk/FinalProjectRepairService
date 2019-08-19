@@ -4,6 +4,9 @@ import dao.*;
 import model.*;
 
 
+/**
+ * Class that get entity of order and give of detail text information about order
+ */
 public class OrderDTO {
     private Order order;
 

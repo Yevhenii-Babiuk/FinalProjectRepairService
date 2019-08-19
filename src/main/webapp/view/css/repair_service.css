@@ -60,7 +60,7 @@ body {
 }
 
 .header_title {
-  font-size: 3.75rem;
+  font-size: 3rem;
   font-family: 'Montserrat', sans-serif;
   margin-bottom: 10px;
 }
@@ -94,7 +94,7 @@ body {
   font-size: 1.5rem;
 }
 
-.portfolio {
+.main_white {
   color: #2c3e50;
   padding-top: 80px;
   padding-bottom: 80px;
@@ -114,14 +114,7 @@ body {
   color: #2c3e50;
 }
 
-.portfolio_gallery {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding-top: 20px;
-}
-
-.portfolio_item {
+.main_white_item {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 33.33333%;
   flex: 0 0 33.33333%;
@@ -131,7 +124,7 @@ body {
   padding-right: 15px;
 }
 
-.portfolio_item_modal {
+.main_white_item_modal {
   cursor: pointer;
   position: relative;
   display: block;
@@ -140,7 +133,7 @@ body {
   overflow: hidden;
 }
 
-.portfolio_item-caption {
+.main_white_item-caption {
   position: absolute;
   top: 0;
   left: 0;
@@ -155,11 +148,11 @@ body {
   align-items: center;
 }
 
-.portfolio_item-caption-content {
+.main_white_item-caption-content {
   text-align: center;
 }
 
-.portfolio_item-caption:hover {
+.main_white_item-caption:hover {
   opacity: 1;
 }
 
@@ -171,11 +164,6 @@ body {
   font-size: 5rem;
 }
 
-.portfolio_img {
-  width: 100%;
-  height: auto;
-  vertical-align: middle;
-}
 
 .fa-times {
   font-family: 'FontAwesome', sans-serif;
@@ -208,23 +196,7 @@ body {
   padding-top: 0;
 }
 
-.btn_download {
-  padding: 16px 32px;
-  border: 3px solid #ffffff;
-  border-radius: 5px;
-  color: #ffffff;
-  font-size: 1.25rem;
-  text-decoration: none;
-  margin-top: 20px;
-  transition: all 0.25s;
-}
-
-.btn_download:hover {
-  background-color: #fff;
-  color: #212529;
-}
-
-.contact {
+.forms {
   padding-top: 80px;
   padding-bottom: 80px;
   color: #2c3e50;
@@ -267,7 +239,7 @@ th {
   grid-row: 1;
 }
 
-.contact_form{
+.forms_form{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -275,7 +247,7 @@ th {
   width: 65%;
 }
 
-.contact_form input {
+.forms_form input {
   border: none;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   margin-bottom: 20px;
@@ -287,7 +259,7 @@ th {
 
 }
 
-.contact_form select {
+.forms_form select {
   border: none;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   margin-bottom: 20px;
@@ -299,7 +271,7 @@ th {
 }
 
 
-.contact_form textarea {
+.forms_form textarea {
   border: none;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   margin-bottom: 20px;

@@ -11,17 +11,20 @@ import org.json.JSONObject;
 import java.sql.Date;
 import java.util.Calendar;
 
+/**
+ * Realizing adding new user to DB
+ */
 public class AddUser {
 
     public boolean addUserToDatabase(String json) {
         JSONObject object = new JSONObject(json);
         String name = object.getString("name");
         String surname = object.getString("surname");
-        String phone = object.getString("phone");
+        String phone = "+"+object.getString("phone");
         String address = object.getString("address");
         String login = object.getString("login");
         String password = object.getString("password");
-        String role = object.getString("role");
+        String role = object.get("role").toString();
         User user = new User();
         user.setName(name);
         user.setSurname(surname);
@@ -35,6 +38,7 @@ public class AddUser {
         if (userDao.getEntityByLogin(user.getLogin()) != null) {
             return false;
         } else if (user.getRole() == null || user.getRole().equals(Role.CLIENT)) {
+            user.setRole(Role.CLIENT);
             userDao.add(user);
             return true;
         } else {

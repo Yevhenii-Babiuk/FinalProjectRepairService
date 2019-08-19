@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 import java.sql.Date;
 
+/**
+ * Realizing editing exist order
+ */
 public class EditOrder {
 
     public void editOrder(String json) {
@@ -16,7 +19,7 @@ public class EditOrder {
         String masterSurname = object.get("masterSurname").toString();
         String managerSurname = object.get("managerSurname").toString();
         String solving = object.get("solving").toString();
-        Date endDate = Date.valueOf(object.get("endDate").toString());
+        Date endDate = new Date((Long) object.get("endDate"));
         String status = object.get("status").toString();
 
         OrderDAOImplement orderDao = new OrderDAOImplement();

@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Enumeration of possible role for user
+ */
 public enum Role {
     ADMIN("admin"),
     MANAGER("manager"),
@@ -15,4 +18,5 @@ public enum Role {
     public String getRoleToString() {
         return role;
     }
+
 }

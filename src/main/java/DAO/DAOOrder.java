@@ -5,6 +5,10 @@ import model.*;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Base interface for DAO layer of Order
+ */
+
 interface DAOOrder extends DAO<Order, Integer>{
     public List<Order> getOrderByClient(Integer client);
     public List<Order> getOrderByMaster(Integer master);

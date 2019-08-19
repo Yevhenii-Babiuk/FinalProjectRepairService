@@ -1,5 +1,11 @@
 package model;
 
+import java.util.Objects;
+
+
+/**
+ * Class realizing entity of device
+ */
 public class Device {
     private int id;
     private int client;
@@ -45,5 +51,22 @@ public class Device {
 
     public void setImei(String imei) {
         this.imei = imei;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Device)) return false;
+        Device device = (Device) o;
+        return getId() == device.getId() &&
+                getClient() == device.getClient() &&
+                getBrand().equals(device.getBrand()) &&
+                getModel().equals(device.getModel()) &&
+                getImei().equals(device.getImei());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getClient(), getBrand(), getModel(), getImei());
     }
 }

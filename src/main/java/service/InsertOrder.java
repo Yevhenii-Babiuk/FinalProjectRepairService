@@ -13,6 +13,9 @@ import org.json.JSONObject;
 import java.sql.Date;
 import java.util.Calendar;
 
+/**
+ * Insert new order from client or employee
+ */
 public class InsertOrder {
 
     public void setOrderFromClient(String json) {
@@ -51,7 +54,7 @@ public class InsertOrder {
         String masterSurname = object.get("masterSurname").toString();
         String managerSurname = object.get("managerSurname").toString();
         String solving = object.get("solving").toString();
-        Date endDate = Date.valueOf(object.get("endDate").toString());
+        Date endDate = new Date((Long) object.get("endDate"));
         String status = object.get("status").toString();
         String clientLogin = object.get("clientLogin").toString();
         String model = object.get("model").toString();

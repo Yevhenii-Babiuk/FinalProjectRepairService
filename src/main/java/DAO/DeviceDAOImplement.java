@@ -8,8 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of DAO interface for Device
+ */
+
 public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
     private static final Logger LOG = Logger.getLogger(DeviceDAOImplement.class);
+
+    /**
+     * Method for find all devices
+     * @return List of devices
+     */
     @Override
     public List<Device> getAll() {
         Connection connection = getConnection();
@@ -51,6 +60,10 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         return deviceList;
     }
 
+    /**
+     * Add entity into DB
+     * @param entity get entity to insert it to DB
+     */
     @Override
     public void add(Device entity) {
         Connection connection = getConnection();
@@ -85,6 +98,10 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         }
     }
 
+    /**
+     * Update entity into DB
+     * @param entity get entity to update new values into DB
+     */
     @Override
     public void update(Device entity) {
         String sql = "UPDATE `device` SET id=?, client=?, brand=?, model=?, imei=? WHERE id=?";
@@ -120,6 +137,11 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         }
     }
 
+
+    /**
+     * Delete entity in DB
+     * @param entity what need to delete
+     */
     @Override
     public void delete(Device entity) {
         Connection connection = getConnection();
@@ -150,16 +172,21 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         }
     }
 
+    /**
+     * @param id parameter for find entity
+     * @return entity
+     */
     @Override
     public Device getEntityByKey(Integer id) {
         Connection connection = getConnection();
         String sql = "SELECT id, client, brand, model, imei FROM `device` WHERE id = ?";
         Device device = new Device();
+        ResultSet resultSet = null;
         PreparedStatement preparedStatement =null;
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             device.setId(resultSet.getInt("id"));
             device.setClient(resultSet.getInt("client"));
@@ -168,6 +195,13 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
             device.setImei(resultSet.getString("imei"));
             LOG.debug("Executed query "+sql);
         } catch (SQLException e) {
+            try {
+                if (!resultSet.next()) {
+                    return null;
+                }
+            } catch (SQLException ex) {
+                LOG.debug("SQLException occurred");
+            }
             LOG.debug("SQLException occurred");
         } finally {
             if (preparedStatement != null) {
@@ -188,6 +222,10 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         return device;
     }
 
+    /**
+     * @param brand parameter for find entity
+     * @return list entity
+     */
     @Override
     public List<Device> getDeviceByBrand(String brand) {
         List<Device> deviceList = new ArrayList<>();
@@ -229,7 +267,10 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         return deviceList;
     }
 
-
+    /**
+     * @param model parameter for find entity
+     * @return list entity
+     */
     @Override
     public List<Device> getDeviceByModel(String model) {
         Connection connection = getConnection();
@@ -271,6 +312,10 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         return deviceList;
     }
 
+    /**
+     * @param imei parameter for find entity
+     * @return entity
+     */
     @Override
     public Device getDeviceByIMEI(String imei) {
         Connection connection = getConnection();
@@ -316,6 +361,10 @@ public class DeviceDAOImplement extends MySQLConnector implements DAODevice {
         return device;
     }
 
+    /**
+     * @param client parameter for find entity
+     * @return list entity
+     */
     @Override
     public List<Device> getDeviceByClient(Integer client) {
         Connection connection = getConnection();

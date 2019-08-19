@@ -4,12 +4,15 @@ import dao.UserDAOImplement;
 import model.User;
 import org.json.JSONObject;
 
+/**
+ * Edit exist user in DB
+ */
 public class EditUser {
     public void editUser(String json) {
         JSONObject object = new JSONObject(json);
         String name = object.getString("name");
         String surname = object.getString("surname");
-        String phone = object.getString("phone");
+        String phone = "+"+object.getString("phone");
         String address = object.getString("address");
         String login = object.getString("login");
         String password = null;
@@ -19,7 +22,7 @@ public class EditUser {
             password = null;
         }
 
-        String role = object.getString("role");
+        String role = object.get("role").toString();
         User user = new UserDAOImplement().getEntityByLogin(login);
         user.setName(name);
         user.setSurname(surname);
