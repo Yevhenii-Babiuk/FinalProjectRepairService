@@ -77,7 +77,7 @@ public class OrderDTO {
         ProblemDAOImplement problemDAO = new ProblemDAOImplement();
         Problem problem = problemDAO.getEntityByKey(order.getProblem());
         if (problem == null) {
-            return Float.parseFloat(null);
+            return 0;
         } else {
             return problem.getPrice();
         }
